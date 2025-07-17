@@ -1,1 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ZyntraTube NeonVerse</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #0f0f1a;
+      color: white;
+    }
+    .header {
+      background: linear-gradient(90deg, #ff0055, #5e72ff);
+      padding: 15px;
+      text-align: center;
+    }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 15px;
+      padding: 15px;
+    }
+    .video-card {
+      background: #1a1a2e;
+      border-radius: 10px;
+      overflow: hidden;
+      padding: 10px;
+    }
+    .video-thumbnail {
+      width: 100%;
+      height: 180px;
+      position: relative;
+    }
+    .video-thumbnail iframe {
+      width: 100% !important;
+      height: 100% !important;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .video-title {
+      padding: 10px;
+      color: white;
+    }
+    .upload-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ff0055;
+      color: white;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>ZyntraTube NeonVerse</h1>
+  </div>
 
