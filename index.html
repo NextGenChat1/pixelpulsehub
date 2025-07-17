@@ -1,41 +1,3 @@
-pixelpulsehub/
-├─ index.html
-├─ content.json      ← aapka content
-└─ .github/
-   └─ workflows/
-      └─ daily.yml   ← auto-update
-{
-  "breaking": [
-    {
-      "title": "My First Breaking News",
-      "body": "Pakistan ne Asia Cup ki hosting confirm kar di. Details kal tak."
-    }
-  ],
-  "tips": [
-    {
-      "title": "Subah ka 1 glass nimbu-paani",
-      "body": "Metabolism boost aur glowing skin ke liye nimbu-paani subah khali pet piyein."
-    }
-  ],
-  "recipes": [
-    {
-      "title": "10-Minute Anda Bhurji",
-      "body": "2 ande, 1 pyaaz, hari mirch, namak-mirch, 1 chamach makhan — ready!"
-    }
-  ],
-  "poetry": [
-    {
-      "title": "Aaj ki Nazm",
-      "body": "Raat ka andhera bhi roshan kar de woh shakhs,\nJis ki muskurahat tumhare lab pe thahar jaaye."
-    }
-  ],
-  "wishes": [
-    {
-      "title": "Good-morning quote",
-      "body": "Har subah ek nayi umeed, ek naya jazba le kar aati hai. Good morning!"
-    }
-  ]
-}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,22 +6,21 @@ pixelpulsehub/
   <title>PixelPulseHub – My Own Content</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💜</text></svg>">
   <style>
-    :root{--bg:#fff;--bgSoft:#f7f7f7;--text:#111;--accent:#8a2be2;--accent2:#ff1493;--radius:12px;--shadow:0 2px 6px rgba(0,0,0,.08);--shadowHover:0 4px 14px rgba(0,0,0,.15)}
+    :root{--bg:#fff;--bgSoft:#f7f7f7;--text:#111;--accent:#8a2be2;--accent2:#ff1493;--radius:12px}
     [data-theme="dark"]{--bg:#121212;--bgSoft:#1e1e1e;--text:#e5e5e5}
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
     header{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;padding:1rem;display:flex;justify-content:space-between;align-items:center}
     header h1{font-size:1.5rem}
-    #themeToggle{background:transparent;border:none;font-size:1.3rem;cursor:pointer;color:#fff}
-    nav{position:sticky;top:0;background:var(--bgSoft);display:flex;gap:.5rem;overflow-x:auto;padding:.5rem 1rem;z-index:10}
-    nav a{flex:0 0 auto;padding:.4rem .8rem;border-radius:var(--radius);text-decoration:none;color:var(--text);white-space:nowrap}
+    #themeToggle{background:transparent;border:none;font-size:1.3rem;color:#fff;cursor:pointer}
+    nav{position:sticky;top:0;background:var(--bgSoft);display:flex;gap:.5rem;overflow-x:auto;padding:.5rem 1rem}
+    nav a{flex:0 0 auto;padding:.5rem .8rem;border-radius:var(--radius);text-decoration:none;color:var(--text)}
     nav a:hover{background:var(--accent);color:#fff}
     main{max-width:900px;margin:1.5rem auto;padding:0 1rem}
     section{margin-bottom:2rem}
-    .card{background:var(--bgSoft);border-radius:var(--radius);padding:1rem;margin-bottom:1rem;box-shadow:var(--shadow);transition:.2s}
-    .card:hover{box-shadow:var(--shadowHover)}
+    .card{background:var(--bgSoft);border-radius:var(--radius);padding:1rem;margin-bottom:1rem}
     .card h3{margin-bottom:.5rem;color:var(--accent)}
-    footer{text-align:center;padding:2rem 1rem;font-size:.9rem;color:#888}
+    .card p{white-space:pre-wrap}
   </style>
 </head>
 <body>
@@ -68,17 +29,15 @@ pixelpulsehub/
     <button id="themeToggle">🌗</button>
   </header>
   <nav>
-    <a href="#breaking">Breaking</a>
-    <a href="#tips">Tips</a>
-    <a href="#recipes">Recipes</a>
-    <a href="#poetry">Poetry</a>
-    <a href="#wishes">Wishes</a>
+    <a href="#breaking">Breaking</a><a href="#tips">Tips</a><a href="#recipes">Recipes</a>
+    <a href="#poetry">Poetry</a><a href="#wishes">Wishes</a>
   </nav>
+
   <main id="content"></main>
-  <footer>&copy; 2025 PixelPulseHub – Powered by YOU</footer>
+  <footer>&copy; 2025 PixelPulseHub – All my own words.</footer>
 
   <script>
-    /* dark mode */
+    /* dark-mode toggle */
     const toggleBtn=document.getElementById('themeToggle');
     toggleBtn.onclick=()=>{
       const dark=document.documentElement.getAttribute('data-theme')==='dark';
@@ -87,43 +46,41 @@ pixelpulsehub/
     };
     document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||'light');
 
-    /* load own content.json */
-    async function loadContent(){
-      const res=await fetch('content.json');
-      const data=await res.json();
-      Object.keys(data).forEach(sec=>{
-        const el=document.getElementById(sec);
-        if(!el)return;
-        el.innerHTML='';
-        data[sec].forEach(item=>{
-          const d=document.createElement('div');d.className='card';
-          d.innerHTML=`<h3>${item.title}</h3><p>${item.body}</p>`;
-          el.appendChild(d);
+    /* in-page content (no external fetch) */
+    const data={
+      breaking:[
+        {title:"Pakistan Asia Cup Host",body:"PCB ne 2025 Asia Cup ki hosting ka اعلان کر دیا. تمام میچز پاکستان میں ہوں گے."}
+      ],
+      tips:[
+        {title:"Subah Nimbu-Paani",body:"کھالی پیٹ نیم گرم پانی + نیمبو + شہد = میٹابولزم بوسٹ اور چمکدار جلد."}
+      ],
+      recipes:[
+        {title:"10-Minute Anda Bhurji",body:"انڈے ۲، پیاز ۱، ہری مرچ، نمک-مرچ، مکھن ۱ چمچ — تیار!"}
+      ],
+      poetry:[
+        {title:"آج کی نظم",body:"رات کا اندھیرا بھی روشن کر دے وہ شخص\nجس کی مسکراہٹ تمہارے لب پہ ٹھہر جائے"}
+      ],
+      wishes:[
+        {title:"Good-morning",body:"ہر صبح ایک نئی امید، ایک نیا جذبہ لے کر آتی ہے۔ صبح بخیر!"}
+      ]
+    };
+
+    function render(){
+      const main=document.getElementById('content');
+      Object.keys(data).forEach(key=>{
+        const sec=document.createElement('section');sec.id=key;
+        sec.innerHTML=`<h2>${key.charAt(0).toUpperCase()+key.slice(1)}</h2>`;
+        data[key].forEach(item=>{
+          const card=document.createElement('div');card.className='card';
+          card.innerHTML=`<h3>${item.title}</h3><p>${item.body}</p>`;
+          sec.appendChild(card);
         });
+        main.appendChild(sec);
       });
     }
-    loadContent();
+    render();
   </script>
 </body>
 </html>
-name: Daily Content Update
-on:
-  schedule:
-    - cron: '0 6 * * *'    # 6 AM UTC every day
-  workflow_dispatch:        # manual run button
 
-jobs:
-  update:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: |
-          # add any script if you want random content
-          git config user.name "bot"
-          git config user.email "bot@example.com"
-          # just to change commit timestamp daily
-          date > last_update.txt
-          git add last_update.txt
-          git commit -m "Daily content refresh" || exit 0
-          git push
 
