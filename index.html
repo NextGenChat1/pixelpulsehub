@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>PixelPulseHub – Auto Update</title>
+  <title>PixelPulseHub – Auto Sections</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💜</text></svg>">
   <style>
     :root{--bg:#fff;--bgSoft:#f7f7f7;--text:#111;--accent:#8a2be2;--accent2:#ff1493;--radius:12px;--shadow:0 2px 6px rgba(0,0,0,.08);--shadowHover:0 4px 14px rgba(0,0,0,.15)}
@@ -37,6 +37,7 @@
     <a href="#poetry">Poetry</a>
     <a href="#wishes">Wishes</a>
   </nav>
+
   <main id="content"></main>
   <footer>&copy; 2025 PixelPulseHub</footer>
 
@@ -50,26 +51,35 @@
     };
     document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||'light');
 
-    /* auto-fetch RSS -> JSON for free */
+    /* helper to fetch RSS through free proxy */
     async function fetchRSS(section,url){
       const proxy='https://api.rss2json.com/v1/api.json?rss_url=';
-      const res=await fetch(proxy+encodeURIComponent(url));
-      const data=await res.json();
-      const el=document.getElementById(section);
-      if(!el)return;
-      el.innerHTML='';
-      data.items.slice(0,3).forEach(item=>{
-        const div=document.createElement('div');div.className='card';
-        div.innerHTML=`<h3>${item.title}</h3><p>${item.description.replace(/<[^>]*>/g,'').slice(0,150)}…</p><a href="${item.link}" target="_blank">Read more</a>`;
-        el.appendChild(div);
-      });
+      try{
+        const res=await fetch(proxy+encodeURIComponent(url));
+        const data=await res.json();
+        const el=document.getElementById(section);
+        if(!el)return;
+        el.innerHTML='';
+        (data.items||[]).slice(0,3).forEach(item=>{
+          const div=document.createElement('div');div.className='card';
+          div.innerHTML=`
+            <h3>${item.title}</h3>
+            <p>${item.description.replace(/<[^>]*>/g,'').slice(0,140)}…</p>
+            <a href="${item.link}" target="_blank" rel="noopener">Read&nbsp;more&nbsp;→</a>
+          `;
+          el.appendChild(div);
+        });
+      }catch(e){
+        const el=document.getElementById(section);
+        if(el)el.innerHTML=`<p style="color:#999">Could not load ${section}. Try refreshing.</p>`;
+      }
     }
 
-    /* sections + free RSS feeds */
+    /* SECTION → DEDICATED FREE RSS */
     const feeds={
       breaking:'https://feeds.bbci.co.uk/news/rss.xml',
       tips:'https://feeds.feedburner.com/lifehacker/full',
-      recipes:'https://www.bbcgoodfood.com/feeds/rss',
+      recipes:'https://feeds.feedburner.com/vegrecipesofindia',
       poetry:'https://feeds.feedburner.com/PoetryFoundationPoemOfTheDay',
       wishes:'https://feeds.feedburner.com/brainyquote/QUOTEBR'
     };
@@ -77,16 +87,16 @@
     function renderPage(){
       const main=document.getElementById('content');
       Object.keys(feeds).forEach(id=>{
-        const s=document.createElement('section');s.id=id;
-        s.innerHTML=`<h2>${id.charAt(0).toUpperCase()+id.slice(1)}</h2>`;
-        main.appendChild(s);
+        const sec=document.createElement('section');sec.id=id;
+        sec.innerHTML=`<h2>${id.charAt(0).toUpperCase()+id.slice(1)}</h2>`;
+        main.appendChild(sec);
         fetchRSS(id,feeds[id]);
       });
     }
     renderPage();
 
-    /* refresh timers */
-    setInterval(()=>fetchRSS('breaking',feeds.breaking),3*60*60*1000); // 3h
+    /* auto-refresh timers */
+    setInterval(()=>fetchRSS('breaking',feeds.breaking),3*60*60*1000); // 3 h
     setInterval(()=>Object.keys(feeds).forEach(k=>k!=='breaking'&&fetchRSS(k,feeds[k])),24*60*60*1000); // daily
   </script>
 </body>
