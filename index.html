@@ -1,9 +1,47 @@
+pixelpulsehub/
+├─ index.html
+├─ content.json      ← aapka content
+└─ .github/
+   └─ workflows/
+      └─ daily.yml   ← auto-update
+{
+  "breaking": [
+    {
+      "title": "My First Breaking News",
+      "body": "Pakistan ne Asia Cup ki hosting confirm kar di. Details kal tak."
+    }
+  ],
+  "tips": [
+    {
+      "title": "Subah ka 1 glass nimbu-paani",
+      "body": "Metabolism boost aur glowing skin ke liye nimbu-paani subah khali pet piyein."
+    }
+  ],
+  "recipes": [
+    {
+      "title": "10-Minute Anda Bhurji",
+      "body": "2 ande, 1 pyaaz, hari mirch, namak-mirch, 1 chamach makhan — ready!"
+    }
+  ],
+  "poetry": [
+    {
+      "title": "Aaj ki Nazm",
+      "body": "Raat ka andhera bhi roshan kar de woh shakhs,\nJis ki muskurahat tumhare lab pe thahar jaaye."
+    }
+  ],
+  "wishes": [
+    {
+      "title": "Good-morning quote",
+      "body": "Har subah ek nayi umeed, ek naya jazba le kar aati hai. Good morning!"
+    }
+  ]
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>PixelPulseHub – Auto Sections</title>
+  <title>PixelPulseHub – My Own Content</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💜</text></svg>">
   <style>
     :root{--bg:#fff;--bgSoft:#f7f7f7;--text:#111;--accent:#8a2be2;--accent2:#ff1493;--radius:12px;--shadow:0 2px 6px rgba(0,0,0,.08);--shadowHover:0 4px 14px rgba(0,0,0,.15)}
@@ -21,7 +59,6 @@
     .card{background:var(--bgSoft);border-radius:var(--radius);padding:1rem;margin-bottom:1rem;box-shadow:var(--shadow);transition:.2s}
     .card:hover{box-shadow:var(--shadowHover)}
     .card h3{margin-bottom:.5rem;color:var(--accent)}
-    .card img{width:100%;border-radius:var(--radius);margin-top:.5rem}
     footer{text-align:center;padding:2rem 1rem;font-size:.9rem;color:#888}
   </style>
 </head>
@@ -37,9 +74,8 @@
     <a href="#poetry">Poetry</a>
     <a href="#wishes">Wishes</a>
   </nav>
-
   <main id="content"></main>
-  <footer>&copy; 2025 PixelPulseHub</footer>
+  <footer>&copy; 2025 PixelPulseHub – Powered by YOU</footer>
 
   <script>
     /* dark mode */
@@ -51,53 +87,43 @@
     };
     document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||'light');
 
-    /* helper to fetch RSS through free proxy */
-    async function fetchRSS(section,url){
-      const proxy='https://api.rss2json.com/v1/api.json?rss_url=';
-      try{
-        const res=await fetch(proxy+encodeURIComponent(url));
-        const data=await res.json();
-        const el=document.getElementById(section);
+    /* load own content.json */
+    async function loadContent(){
+      const res=await fetch('content.json');
+      const data=await res.json();
+      Object.keys(data).forEach(sec=>{
+        const el=document.getElementById(sec);
         if(!el)return;
         el.innerHTML='';
-        (data.items||[]).slice(0,3).forEach(item=>{
-          const div=document.createElement('div');div.className='card';
-          div.innerHTML=`
-            <h3>${item.title}</h3>
-            <p>${item.description.replace(/<[^>]*>/g,'').slice(0,140)}…</p>
-            <a href="${item.link}" target="_blank" rel="noopener">Read&nbsp;more&nbsp;→</a>
-          `;
-          el.appendChild(div);
+        data[sec].forEach(item=>{
+          const d=document.createElement('div');d.className='card';
+          d.innerHTML=`<h3>${item.title}</h3><p>${item.body}</p>`;
+          el.appendChild(d);
         });
-      }catch(e){
-        const el=document.getElementById(section);
-        if(el)el.innerHTML=`<p style="color:#999">Could not load ${section}. Try refreshing.</p>`;
-      }
-    }
-
-    /* SECTION → DEDICATED FREE RSS */
-    const feeds={
-      breaking:'https://feeds.bbci.co.uk/news/rss.xml',
-      tips:'https://feeds.feedburner.com/lifehacker/full',
-      recipes:'https://feeds.feedburner.com/vegrecipesofindia',
-      poetry:'https://feeds.feedburner.com/PoetryFoundationPoemOfTheDay',
-      wishes:'https://feeds.feedburner.com/brainyquote/QUOTEBR'
-    };
-
-    function renderPage(){
-      const main=document.getElementById('content');
-      Object.keys(feeds).forEach(id=>{
-        const sec=document.createElement('section');sec.id=id;
-        sec.innerHTML=`<h2>${id.charAt(0).toUpperCase()+id.slice(1)}</h2>`;
-        main.appendChild(sec);
-        fetchRSS(id,feeds[id]);
       });
     }
-    renderPage();
-
-    /* auto-refresh timers */
-    setInterval(()=>fetchRSS('breaking',feeds.breaking),3*60*60*1000); // 3 h
-    setInterval(()=>Object.keys(feeds).forEach(k=>k!=='breaking'&&fetchRSS(k,feeds[k])),24*60*60*1000); // daily
+    loadContent();
   </script>
 </body>
 </html>
+name: Daily Content Update
+on:
+  schedule:
+    - cron: '0 6 * * *'    # 6 AM UTC every day
+  workflow_dispatch:        # manual run button
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          # add any script if you want random content
+          git config user.name "bot"
+          git config user.email "bot@example.com"
+          # just to change commit timestamp daily
+          date > last_update.txt
+          git add last_update.txt
+          git commit -m "Daily content refresh" || exit 0
+          git push
+
