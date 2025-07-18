@@ -7,22 +7,26 @@
   <style>
     body {
       font-family: 'Comic Sans MS', sans-serif;
-      background: #f8f9fa;
+      background: linear-gradient(to right, #fdfbfb, #ebedee);
       color: #333;
       text-align: center;
       padding: 20px;
+      margin: 0;
     }
     h1 {
       color: #ff4081;
+      font-size: 2.5em;
+      margin-bottom: 10px;
     }
     .btn {
       padding: 10px 20px;
       margin: 10px;
-      font-size: 16px;
+      font-size: 18px;
       border: none;
       border-radius: 10px;
       background: #ffd54f;
       cursor: pointer;
+      transition: 0.2s;
     }
     .btn:hover {
       background: #ffc107;
@@ -30,10 +34,14 @@
     #output {
       margin-top: 20px;
       padding: 20px;
-      background: #ffffff;
-      border-radius: 10px;
+      background: #fff;
+      border-radius: 15px;
       box-shadow: 0 0 10px #ccc;
       white-space: pre-line;
+      font-size: 18px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .lang-btn {
       position: fixed;
@@ -41,6 +49,7 @@
       right: 10px;
       background: #4caf50;
       color: white;
+      z-index: 10;
     }
   </style>
 </head>
@@ -48,58 +57,126 @@
   <button class="btn lang-btn" onclick="toggleLanguage()">🌐 Urdu / English</button>
   <h1>📚 Welcome to Zyntra Kids Library</h1>
 
-  <button class="btn" onclick="showStory('animal')">🦁 Animal Story</button>
-  <button class="btn" onclick="showStory('moral')">🌟 Moral Story</button>
-  <button class="btn" onclick="showStory('fantasy')">🧚 Fantasy Story</button>
+  <button class="btn" onclick="showStory('animal')">🦁 Animal Stories</button>
+  <button class="btn" onclick="showStory('moral')">🌟 Moral Stories</button>
+  <button class="btn" onclick="showStory('fantasy')">🧚 Fantasy Stories</button>
   <button class="btn" onclick="wordOfDay()">🧠 Word of the Day</button>
   <button class="btn" onclick="startChat()">🤖 Ask ZyntraBot</button>
+  <button class="btn" onclick="playGame()">🎮 Guess the Animal</button>
 
   <div id="output">Click a button to see the story.</div>
 
   <script>
-    let lang = 'en';
+    let language = "en";
 
     const stories = {
       animal: {
-        en: "🐶 The Clever Dog\n\nOnce there was a dog. He was very hungry. He found a bone and ran happily. On the way, he saw his reflection in the water. He thought it was another dog with a bigger bone. He barked — and his bone fell into the water.\n\nMoral: Don’t be greedy.",
-        ur: "🐶 ہوشیار کتا\n\nایک بار ایک کتا بہت بھوکا تھا۔ اسے ایک ہڈی ملی اور وہ خوشی سے بھاگا۔ راستے میں، اسے پانی میں اپنا عکس نظر آیا۔ اسے لگا کہ دوسرا کتا ہے جس کے پاس بڑی ہڈی ہے۔ وہ بھونکا — اور اس کی ہڈی پانی میں گر گئی۔\n\nسبق: لالچ نہ کریں۔"
+        en: [
+          "🐘 The Brave Elephant:\nAn elephant saved a forest from a fire using his big ears to fan the flames. He became a hero.",
+          "🦊 The Clever Fox:\nA fox tricked a hungry lion and saved the jungle animals. Everyone clapped for him.",
+          "🦉 The Night Owl:\nAn owl helped lost birds at night using her great eyes.",
+          "🐢 Slow But Smart:\nThe turtle saved a baby bird by swimming it across a river.",
+          "🦁 Leo the Lion:\nLeo shared his food with others and became King of Kindness.",
+        ],
+        ur: [
+          "🐘 بہادر ہاتھی:\nایک ہاتھی نے جنگل میں آگ بجھائی۔ سب نے اُسے ہیرو کہا۔",
+          "🦊 چالاک لومڑی:\nلومڑی نے شیر کو چالاکی سے دھوکہ دیا اور سب جانور بچا لیے۔",
+          "🦉 رات کی الو:\nالو نے رات میں راستہ بھٹکے پرندوں کی مدد کی۔",
+          "🐢 آہستہ لیکن عقلمند:\nکچھوا ایک بچے پرندے کو تیر کر پار لے گیا۔",
+          "🦁 لیو شیر:\nلیو نے سب کے ساتھ کھانا بانٹا اور مہربان بادشاہ بن گیا۔"
+        ]
       },
       moral: {
-        en: "🌟 The Honest Boy\n\nA boy found a wallet full of money. He gave it to the police. The owner came and thanked him. Everyone praised the honest boy.\n\nMoral: Honesty is the best policy.",
-        ur: "🌟 ایماندار لڑکا\n\nایک لڑکے کو ایک بٹوہ ملا جس میں پیسے تھے۔ اس نے پولیس کو دے دیا۔ مالک آیا اور شکریہ ادا کیا۔ سب نے لڑکے کی ایمانداری کی تعریف کی۔\n\nسبق: ایمانداری بہترین پالیسی ہے۔"
+        en: [
+          "👧 The Honest Girl:\nA girl returned a lost wallet. She was rewarded for her truth.",
+          "👦 Sharing is Caring:\nTwo boys shared their lunch and made a new friend.",
+          "🐶 Helping Others:\nA dog helped an injured cat. They became best friends.",
+          "👩‍🌾 The Lazy Farmer:\nA farmer learned hard work brings sweet fruit.",
+          "🧒 Don't Lie:\nA boy lied and no one believed him later. He promised to be honest.",
+        ],
+        ur: [
+          "👧 ایماندار لڑکی:\nلڑکی نے گرا ہوا بٹوہ واپس کیا۔ سب نے سراہا۔",
+          "👦 بانٹنا محبت ہے:\nدو بچوں نے لنچ بانٹا اور دوستی کی۔",
+          "🐶 مدد کرنا اچھا ہے:\nکتے نے زخمی بلی کی مدد کی۔",
+          "👩‍🌾 سست کسان:\nکسان نے سیکھا محنت سے کامیابی ملتی ہے۔",
+          "🧒 جھوٹ نہ بولو:\nلڑکے نے جھوٹ بولا، پھر کوئی اس کی بات نہ مانا۔"
+        ]
       },
       fantasy: {
-        en: "🧚 Magic Shoes\n\nA girl found magic shoes. When she wore them, she could fly. She helped animals and kids using her power. She became a kind hero.\n\nMessage: Use your gifts to help others.",
-        ur: "🧚 جادوئی جوتے\n\nایک لڑکی کو جادوئی جوتے ملے۔ جب وہ پہنتی، تو اُڑ سکتی تھی۔ اُس نے جانوروں اور بچوں کی مدد کی۔ وہ ایک مہربان ہیرو بن گئی۔\n\nپیغام: اپنی طاقت دوسروں کی مدد کے لیے استعمال کریں۔"
+        en: [
+          "🧚 Magic Shoes:\nA girl wore magic shoes and helped animals flying in the sky.",
+          "🐉 Dragon Friend:\nA boy met a dragon who protected the village.",
+          "🪄 Talking Mirror:\nA mirror told jokes and taught kindness.",
+          "🧙‍♂️ Wizard’s Garden:\nA wizard grew trees that gave toys to good kids.",
+          "🧵 Invisible Thread:\nA girl stitched dreams with an invisible thread and spread joy.",
+        ],
+        ur: [
+          "🧚 جادوئی جوتے:\nلڑکی نے جادوئی جوتے پہنے اور پرندوں کی مدد کی۔",
+          "🐉 اژدہے کا دوست:\nلڑکا ایک نیک اژدہے سے ملا جو گاؤں کو بچاتا تھا۔",
+          "🪄 بولتا آئینہ:\nآئینہ ہنسی مذاق کرتا اور اخلاق سکھاتا۔",
+          "🧙‍♂️ جادوگر کا باغ:\nوہ درخت اگاتا تھا جو اچھے بچوں کو کھلونے دیتے۔",
+          "🧵 غائب دھاگا:\nلڑکی نے خوابوں کو سی کر خوشیاں بانٹیں۔"
+        ]
       }
     };
 
+    const words = {
+      en: [
+        "Word: Brave\nMeaning: Showing courage\nExample: The brave dog saved the kitten.",
+        "Word: Share\nMeaning: To give to others\nExample: Please share your crayons.",
+        "Word: Kind\nMeaning: Being nice\nExample: Be kind to your friends."
+      ],
+      ur: [
+        "لفظ: بہادر\nمعنی: جو ہمت دکھائے\nمثال: بہادر کتے نے بلی کو بچایا۔",
+        "لفظ: بانٹنا\nمعنی: دوسروں کو دینا\nمثال: اپنے رنگ سب کو دو۔",
+        "لفظ: مہربان\nمعنی: جو نرمی کرے\nمثال: دوستوں سے مہربانی کرو۔"
+      ]
+    };
+
+    const facts = {
+      en: [
+        "Did you know? 🐙 An octopus has three hearts!",
+        "Fun fact: 🐝 Bees talk by dancing!",
+        "Wow! 🐘 Baby elephants suck their trunks like babies suck thumbs."
+      ],
+      ur: [
+        "کیا آپ جانتے ہیں؟ 🐙 آکٹوپس کے تین دل ہوتے ہیں!",
+        "مزیدار حقیقت: 🐝 شہد کی مکھیاں ناچ کر بات کرتی ہیں!",
+        "واہ! 🐘 ننھے ہاتھی اپنی سونڈ چوس کر سکون پاتے ہیں!"
+      ]
+    };
+
+    function toggleLanguage() {
+      language = language === "en" ? "ur" : "en";
+      document.getElementById("output").innerText = language === "en" ? "Language changed to English!" : "زبان اردو میں تبدیل ہو گئی ہے!";
+    }
+
     function showStory(type) {
-      const story = stories[type][lang];
+      const list = stories[type][language];
+      const story = list[Math.floor(Math.random() * list.length)];
       document.getElementById("output").innerText = story;
     }
 
     function wordOfDay() {
-      const words = {
-        en: "💡 Word of the Day: Brave — not afraid.\nExample: The cat was brave and saved her kitten.",
-        ur: "💡 آج کا لفظ: بہادر — جو نہ ڈرتا ہو۔\nمثال: بلی بہادر تھی اور اپنے بچے کو بچایا۔"
-      };
-      document.getElementById("output").innerText = words[lang];
+      const list = words[language];
+      const word = list[Math.floor(Math.random() * list.length)];
+      document.getElementById("output").innerText = word;
     }
 
     function startChat() {
-      const facts = {
-        en: "🤖 Fun Fact: Octopuses have three hearts! 🐙",
-        ur: "🤖 دلچسپ بات: آکٹوپس کے تین دل ہوتے ہیں! 🐙"
-      };
-      document.getElementById("output").innerText = facts[lang];
+      const list = facts[language];
+      const fact = list[Math.floor(Math.random() * list.length)];
+      document.getElementById("output").innerText = fact;
     }
 
-    function toggleLanguage() {
-      lang = (lang === 'en') ? 'ur' : 'en';
-      document.getElementById("output").innerText = (lang === 'en') 
-        ? "Language set to English." 
-        : "زبان اردو پر سیٹ کر دی گئی ہے۔";
+    function playGame() {
+      const animals = ["lion", "elephant", "cat", "dog"];
+      const picked = animals[Math.floor(Math.random() * animals.length)];
+      let guess = prompt(language === "en" ? "Guess the animal: lion, elephant, cat, or dog?" : "جانور کا نام بتائیں: شیر، ہاتھی، بلی، یا کتا؟").toLowerCase();
+      let correct = guess.includes(picked) || picked.includes(guess);
+      document.getElementById("output").innerText = correct
+        ? (language === "en" ? "🎉 Correct! It was " + picked : "🎉 درست! یہ تھا: " + picked)
+        : (language === "en" ? "❌ Oops! It was " + picked : "❌ غلط! اصل جانور تھا: " + picked);
     }
   </script>
 </body>
