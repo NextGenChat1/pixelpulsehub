@@ -1,183 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Zyntra Kids Library</title>
-  <style>
-    body {
-      font-family: 'Comic Sans MS', sans-serif;
-      background: linear-gradient(to right, #fdfbfb, #ebedee);
-      color: #333;
-      text-align: center;
-      padding: 20px;
-      margin: 0;
-    }
-    h1 {
-      color: #ff4081;
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
-    .btn {
-      padding: 10px 20px;
-      margin: 10px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      background: #ffd54f;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .btn:hover {
-      background: #ffc107;
-    }
-    #output {
-      margin-top: 20px;
-      padding: 20px;
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 0 10px #ccc;
-      white-space: pre-line;
-      font-size: 18px;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .lang-btn {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background: #4caf50;
-      color: white;
-      z-index: 10;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Zyntra Kids Library</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f9f9f9;
+    padding: 20px;
+    margin: 0;
+    text-align: center;
+  }
+  h1 {
+    color: #ff4081;
+  }
+  .category-buttons {
+    margin: 15px 0;
+  }
+  button {
+    background: #ff80ab;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  button:hover {
+    background: #e040fb;
+  }
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .book {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .book:hover {
+    transform: scale(1.05);
+  }
+  .book img {
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+  }
+  .book-title {
+    padding: 10px;
+    font-weight: bold;
+    color: #333;
+  }
+  #story-box {
+    background: white;
+    margin: 30px auto 0;
+    padding: 20px;
+    max-width: 700px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+    text-align: left;
+    display: none;
+    position: relative;
+  }
+  #story-box button.close-btn {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    background: #f44336;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+</style>
 </head>
 <body>
-  <button class="btn lang-btn" onclick="toggleLanguage()">🌐 Urdu / English</button>
-  <h1>📚 Welcome to Zyntra Kids Library</h1>
 
-  <button class="btn" onclick="showStory('animal')">🦁 Animal Stories</button>
-  <button class="btn" onclick="showStory('moral')">🌟 Moral Stories</button>
-  <button class="btn" onclick="showStory('fantasy')">🧚 Fantasy Stories</button>
-  <button class="btn" onclick="wordOfDay()">🧠 Word of the Day</button>
-  <button class="btn" onclick="startChat()">🤖 Ask ZyntraBot</button>
-  <button class="btn" onclick="playGame()">🎮 Guess the Animal</button>
+  <h1>📚 Zyntra Kids Library</h1>
 
-  <div id="output">Click a button to see the story.</div>
+  <div class="category-buttons">
+    <button onclick="filterBooks('all')">All</button>
+    <button onclick="filterBooks('animal')">Animal Stories</button>
+    <button onclick="filterBooks('moral')">Moral Stories</button>
+    <button onclick="filterBooks('fantasy')">Fantasy Stories</button>
+  </div>
 
-  <script>
-    let language = "en";
+  <div class="book-grid" id="bookGrid">
+    <!-- Books added by JS -->
+  </div>
 
-    const stories = {
-      animal: {
-        en: [
-          "🐘 The Brave Elephant:\nAn elephant saved a forest from a fire using his big ears to fan the flames. He became a hero.",
-          "🦊 The Clever Fox:\nA fox tricked a hungry lion and saved the jungle animals. Everyone clapped for him.",
-          "🦉 The Night Owl:\nAn owl helped lost birds at night using her great eyes.",
-          "🐢 Slow But Smart:\nThe turtle saved a baby bird by swimming it across a river.",
-          "🦁 Leo the Lion:\nLeo shared his food with others and became King of Kindness.",
-        ],
-        ur: [
-          "🐘 بہادر ہاتھی:\nایک ہاتھی نے جنگل میں آگ بجھائی۔ سب نے اُسے ہیرو کہا۔",
-          "🦊 چالاک لومڑی:\nلومڑی نے شیر کو چالاکی سے دھوکہ دیا اور سب جانور بچا لیے۔",
-          "🦉 رات کی الو:\nالو نے رات میں راستہ بھٹکے پرندوں کی مدد کی۔",
-          "🐢 آہستہ لیکن عقلمند:\nکچھوا ایک بچے پرندے کو تیر کر پار لے گیا۔",
-          "🦁 لیو شیر:\nلیو نے سب کے ساتھ کھانا بانٹا اور مہربان بادشاہ بن گیا۔"
-        ]
-      },
-      moral: {
-        en: [
-          "👧 The Honest Girl:\nA girl returned a lost wallet. She was rewarded for her truth.",
-          "👦 Sharing is Caring:\nTwo boys shared their lunch and made a new friend.",
-          "🐶 Helping Others:\nA dog helped an injured cat. They became best friends.",
-          "👩‍🌾 The Lazy Farmer:\nA farmer learned hard work brings sweet fruit.",
-          "🧒 Don't Lie:\nA boy lied and no one believed him later. He promised to be honest.",
-        ],
-        ur: [
-          "👧 ایماندار لڑکی:\nلڑکی نے گرا ہوا بٹوہ واپس کیا۔ سب نے سراہا۔",
-          "👦 بانٹنا محبت ہے:\nدو بچوں نے لنچ بانٹا اور دوستی کی۔",
-          "🐶 مدد کرنا اچھا ہے:\nکتے نے زخمی بلی کی مدد کی۔",
-          "👩‍🌾 سست کسان:\nکسان نے سیکھا محنت سے کامیابی ملتی ہے۔",
-          "🧒 جھوٹ نہ بولو:\nلڑکے نے جھوٹ بولا، پھر کوئی اس کی بات نہ مانا۔"
-        ]
-      },
-      fantasy: {
-        en: [
-          "🧚 Magic Shoes:\nA girl wore magic shoes and helped animals flying in the sky.",
-          "🐉 Dragon Friend:\nA boy met a dragon who protected the village.",
-          "🪄 Talking Mirror:\nA mirror told jokes and taught kindness.",
-          "🧙‍♂️ Wizard’s Garden:\nA wizard grew trees that gave toys to good kids.",
-          "🧵 Invisible Thread:\nA girl stitched dreams with an invisible thread and spread joy.",
-        ],
-        ur: [
-          "🧚 جادوئی جوتے:\nلڑکی نے جادوئی جوتے پہنے اور پرندوں کی مدد کی۔",
-          "🐉 اژدہے کا دوست:\nلڑکا ایک نیک اژدہے سے ملا جو گاؤں کو بچاتا تھا۔",
-          "🪄 بولتا آئینہ:\nآئینہ ہنسی مذاق کرتا اور اخلاق سکھاتا۔",
-          "🧙‍♂️ جادوگر کا باغ:\nوہ درخت اگاتا تھا جو اچھے بچوں کو کھلونے دیتے۔",
-          "🧵 غائب دھاگا:\nلڑکی نے خوابوں کو سی کر خوشیاں بانٹیں۔"
-        ]
-      }
-    };
+  <div id="story-box">
+    <button class="close-btn" onclick="closeStory()">X</button>
+    <div id="story-content"></div>
+  </div>
 
-    const words = {
-      en: [
-        "Word: Brave\nMeaning: Showing courage\nExample: The brave dog saved the kitten.",
-        "Word: Share\nMeaning: To give to others\nExample: Please share your crayons.",
-        "Word: Kind\nMeaning: Being nice\nExample: Be kind to your friends."
-      ],
-      ur: [
-        "لفظ: بہادر\nمعنی: جو ہمت دکھائے\nمثال: بہادر کتے نے بلی کو بچایا۔",
-        "لفظ: بانٹنا\nمعنی: دوسروں کو دینا\nمثال: اپنے رنگ سب کو دو۔",
-        "لفظ: مہربان\nمعنی: جو نرمی کرے\nمثال: دوستوں سے مہربانی کرو۔"
-      ]
-    };
-
-    const facts = {
-      en: [
-        "Did you know? 🐙 An octopus has three hearts!",
-        "Fun fact: 🐝 Bees talk by dancing!",
-        "Wow! 🐘 Baby elephants suck their trunks like babies suck thumbs."
-      ],
-      ur: [
-        "کیا آپ جانتے ہیں؟ 🐙 آکٹوپس کے تین دل ہوتے ہیں!",
-        "مزیدار حقیقت: 🐝 شہد کی مکھیاں ناچ کر بات کرتی ہیں!",
-        "واہ! 🐘 ننھے ہاتھی اپنی سونڈ چوس کر سکون پاتے ہیں!"
-      ]
-    };
-
-    function toggleLanguage() {
-      language = language === "en" ? "ur" : "en";
-      document.getElementById("output").innerText = language === "en" ? "Language changed to English!" : "زبان اردو میں تبدیل ہو گئی ہے!";
+<script>
+  const books = [
+    {
+      id: 1,
+      category: 'animal',
+      title: 'The Brave Elephant',
+      cover: 'https://i.imgur.com/eK6Yn1J.jpg', // example image
+      story: `Once upon a time, a brave elephant saw a fire in the forest. Using his big ears, he fanned the flames away to save his friends. Everyone called him a hero.`
+    },
+    {
+      id: 2,
+      category: 'animal',
+      title: 'The Clever Fox',
+      cover: 'https://i.imgur.com/7M8PhQT.jpg',
+      story: `A clever fox outsmarted a hungry lion to protect the jungle animals. His quick thinking saved the day!`
+    },
+    {
+      id: 3,
+      category: 'moral',
+      title: 'The Honest Girl',
+      cover: 'https://i.imgur.com/jq6RmHc.jpg',
+      story: `A kind girl found a lost wallet and returned it. She taught everyone the value of honesty.`
+    },
+    {
+      id: 4,
+      category: 'moral',
+      title: 'Sharing is Caring',
+      cover: 'https://i.imgur.com/xuDQOXq.jpg',
+      story: `Two boys shared their lunch with a new friend. They learned sharing brings happiness.`
+    },
+    {
+      id: 5,
+      category: 'fantasy',
+      title: 'Magic Shoes',
+      cover: 'https://i.imgur.com/fRbEJtN.jpg',
+      story: `A girl found magic shoes that let her fly! She helped animals and kids with her special powers.`
+    },
+    {
+      id: 6,
+      category: 'fantasy',
+      title: 'The Talking Mirror',
+      cover: 'https://i.imgur.com/WGNNvIq.jpg',
+      story: `A magical mirror told jokes and taught kindness to everyone who looked into it.`
     }
+  ];
 
-    function showStory(type) {
-      const list = stories[type][language];
-      const story = list[Math.floor(Math.random() * list.length)];
-      document.getElementById("output").innerText = story;
-    }
+  const bookGrid = document.getElementById('bookGrid');
+  const storyBox = document.getElementById('story-box');
+  const storyContent = document.getElementById('story-content');
 
-    function wordOfDay() {
-      const list = words[language];
-      const word = list[Math.floor(Math.random() * list.length)];
-      document.getElementById("output").innerText = word;
-    }
+  function displayBooks(list) {
+    bookGrid.innerHTML = '';
+    list.forEach(book => {
+      const bookEl = document.createElement('div');
+      bookEl.className = 'book';
+      bookEl.innerHTML = `
+        <img src="${book.cover}" alt="${book.title} Cover" />
+        <div class="book-title">${book.title}</div>
+      `;
+      bookEl.onclick = () => openStory(book.story, book.title);
+      bookGrid.appendChild(bookEl);
+    });
+  }
 
-    function startChat() {
-      const list = facts[language];
-      const fact = list[Math.floor(Math.random() * list.length)];
-      document.getElementById("output").innerText = fact;
+  function filterBooks(category) {
+    if (category === 'all') {
+      displayBooks(books);
+    } else {
+      const filtered = books.filter(b => b.category === category);
+      displayBooks(filtered);
     }
+    closeStory();
+  }
 
-    function playGame() {
-      const animals = ["lion", "elephant", "cat", "dog"];
-      const picked = animals[Math.floor(Math.random() * animals.length)];
-      let guess = prompt(language === "en" ? "Guess the animal: lion, elephant, cat, or dog?" : "جانور کا نام بتائیں: شیر، ہاتھی، بلی، یا کتا؟").toLowerCase();
-      let correct = guess.includes(picked) || picked.includes(guess);
-      document.getElementById("output").innerText = correct
-        ? (language === "en" ? "🎉 Correct! It was " + picked : "🎉 درست! یہ تھا: " + picked)
-        : (language === "en" ? "❌ Oops! It was " + picked : "❌ غلط! اصل جانور تھا: " + picked);
-    }
-  </script>
+  function openStory(text, title) {
+    storyContent.innerHTML = `<h2>${title}</h2><p>${text}</p>`;
+    storyBox.style.display = 'block';
+    window.scrollTo({ top: storyBox.offsetTop, behavior: 'smooth' });
+  }
+
+  function closeStory() {
+    storyBox.style.display = 'none';
+  }
+
+  // Load all books on page load
+  filterBooks('all');
+</script>
+
 </body>
 </html>
