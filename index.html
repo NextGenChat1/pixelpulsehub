@@ -3,126 +3,132 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Zyntra Kids Hub</title>
+  <title>Zyntra Kids Library</title>
   <style>
     * {
       box-sizing: border-box;
       margin: 0; padding: 0;
       font-family: 'Comic Sans MS', cursive, sans-serif;
     }
-
     body {
       background: #f0f8ff;
       color: #333;
-      padding: 10px;
+      padding: 15px;
+      max-width: 900px;
+      margin: auto;
     }
-
     header {
       text-align: center;
       background: #ffcc00;
-      padding: 15px 0;
-      border-radius: 10px;
-      margin-bottom: 20px;
+      padding: 20px 0;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 6px #ccc;
     }
-
     header h1 {
-      font-size: 2.5rem;
+      font-size: 3rem;
       color: #003366;
     }
-
+    nav {
+      margin-top: 10px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
     nav a {
-      margin: 0 10px;
+      margin: 0 12px;
       text-decoration: none;
       font-weight: bold;
       color: #003366;
+      font-size: 1.1rem;
     }
-
     nav a:hover {
       color: #ff6600;
     }
-
-    main section {
-      margin-bottom: 30px;
+    section {
+      margin-bottom: 35px;
       background: #fff3e6;
-      border-radius: 10px;
-      padding: 15px;
+      border-radius: 12px;
+      padding: 20px;
       box-shadow: 0 2px 5px #ccc;
     }
-
     h2 {
       color: #ff6600;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #ff6600;
+      padding-bottom: 8px;
     }
-
     ul {
       list-style-type: square;
-      padding-left: 20px;
+      padding-left: 22px;
+      margin-bottom: 15px;
     }
-
+    ul li {
+      margin-bottom: 8px;
+    }
     .coloring-gallery img {
-      width: 120px;
-      margin: 10px;
-      border: 2px solid #ff6600;
-      border-radius: 8px;
+      width: 130px;
+      margin: 10px 12px 10px 0;
+      border: 3px solid #ff6600;
+      border-radius: 10px;
       cursor: pointer;
       transition: transform 0.3s ease;
     }
-
     .coloring-gallery img:hover {
       transform: scale(1.1);
     }
-
     .game-container {
       margin-top: 15px;
-      padding: 10px;
+      padding: 15px;
       background: #fff;
-      border: 2px solid #ff6600;
-      border-radius: 10px;
-      min-height: 150px;
+      border: 3px solid #ff6600;
+      border-radius: 12px;
+      min-height: 170px;
+      text-align: center;
     }
-
     .chat-output {
-      min-height: 100px;
+      min-height: 120px;
       background: #e6f7ff;
       padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 8px;
+      margin-bottom: 12px;
+      border-radius: 10px;
       overflow-y: auto;
-      max-height: 150px;
+      max-height: 160px;
+      font-size: 0.95rem;
+      line-height: 1.3;
     }
-
     #chatInput {
-      padding: 8px;
-      width: 70%;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      padding: 9px;
+      width: 72%;
+      border-radius: 7px;
+      border: 1.5px solid #ccc;
+      font-size: 1rem;
+      margin-right: 6px;
     }
-
     #chatSend {
-      padding: 8px 15px;
+      padding: 9px 18px;
       background: #ff6600;
       border: none;
       color: white;
       font-weight: bold;
-      border-radius: 5px;
+      border-radius: 7px;
       cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
     }
-
     #chatSend:hover {
       background: #e65500;
     }
-
     footer {
       text-align: center;
-      margin-top: 40px;
-      font-size: 0.9rem;
+      margin-top: 45px;
+      font-size: 1rem;
       color: #666;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Zyntra Kids Hub</h1>
+    <h1>Zyntra Kids Library</h1>
     <nav>
       <a href="#stories">Stories</a>
       <a href="#poems">Poems</a>
@@ -138,40 +144,43 @@
     <section id="stories">
       <h2>Stories</h2>
       <ul>
-        <li><a href="stories/story1.html">The Brave Little Lion</a></li>
-        <li><a href="stories/story2.html">The Wise Owl</a></li>
-        <li><a href="stories/story3.html">The Magical Forest</a></li>
+        <li><strong>The Brave Little Lion</strong>: Once upon a time, a little lion learned to be brave by helping his friends in the jungle.</li>
+        <li><strong>The Wise Owl</strong>: An owl taught the young animals how to be wise and listen carefully.</li>
+        <li><strong>The Magical Forest</strong>: In a magical forest, children found talking animals and exciting adventures.</li>
       </ul>
     </section>
 
     <section id="poems">
       <h2>Poems & Rhymes</h2>
       <ul>
-        <li><a href="poems/poem1.html">Twinkle Twinkle Little Star</a></li>
-        <li><a href="poems/poem2.html">The Rainbow</a></li>
+        <li><strong>Twinkle Twinkle Little Star</strong><br />Twinkle, twinkle, little star,<br />How I wonder what you are!</li>
+        <li><strong>The Rainbow</strong><br />Red, orange, yellow, green, and blue,<br />Colors bright in the sky so true.</li>
       </ul>
     </section>
 
     <section id="coloring">
       <h2>Coloring Pages</h2>
       <div class="coloring-gallery">
-        <img src="coloring/cat.png" alt="Cat Coloring" />
-        <img src="coloring/elephant.png" alt="Elephant Coloring" />
-        <img src="coloring/flower.png" alt="Flower Coloring" />
+        <img src="https://i.imgur.com/3rBkflI.png" alt="Cat Coloring" title="Cat Coloring" />
+        <img src="https://i.imgur.com/3Q4duMm.png" alt="Elephant Coloring" title="Elephant Coloring" />
+        <img src="https://i.imgur.com/Co64qhD.png" alt="Flower Coloring" title="Flower Coloring" />
       </div>
+      <p><em>Tip: Save the images and print for coloring fun!</em></p>
     </section>
 
     <section id="learning">
       <h2>Learning Zone</h2>
-      <p>Alphabets: A B C D E F G ...</p>
-      <p>Numbers: 1 2 3 4 5 6 7 8 9 10</p>
-      <p>Shapes: Circle, Square, Triangle</p>
+      <p><strong>Alphabets:</strong> A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</p>
+      <p><strong>Numbers:</strong> 1 2 3 4 5 6 7 8 9 10</p>
+      <p><strong>Shapes:</strong> Circle, Square, Triangle, Rectangle, Star</p>
     </section>
 
     <section id="games">
       <h2>Fun Games</h2>
       <button id="matchGameBtn">Start Matching Game</button>
-      <div id="matchGame" class="game-container"></div>
+      <div id="matchGame" class="game-container">
+        <p>Click the button above to start!</p>
+      </div>
     </section>
 
     <section id="chatbot">
@@ -183,29 +192,31 @@
 
     <section id="word">
       <h2>Word of the Day</h2>
-      <p id="wordOfDay"></p>
+      <p id="wordOfDay" style="font-size:1.2rem; font-weight:bold;"></p>
     </section>
   </main>
 
   <footer>
-    <p>© 2025 Zyntra Kids Hub</p>
+    <p>© 2025 Zyntra Kids Library</p>
   </footer>
 
   <script>
-    // Word of the Day (Random from list)
+    // Word of the Day (Random)
     const words = [
       { word: "Adventure", meaning: "An exciting or unusual experience." },
       { word: "Brave", meaning: "Showing courage." },
       { word: "Curious", meaning: "Eager to learn or know." },
       { word: "Friendly", meaning: "Kind and pleasant." },
       { word: "Magic", meaning: "The power to make impossible things happen." },
+      { word: "Kindness", meaning: "Being nice to others." },
+      { word: "Laugh", meaning: "To make a happy sound." }
     ];
 
     function showWordOfDay() {
       const idx = Math.floor(Math.random() * words.length);
       const wordEl = document.getElementById("wordOfDay");
       const w = words[idx];
-      wordEl.innerHTML = `<strong>${w.word}</strong>: ${w.meaning}`;
+      wordEl.innerHTML = `${w.word}: ${w.meaning}`;
     }
     showWordOfDay();
 
@@ -214,18 +225,26 @@
     const matchGameDiv = document.getElementById("matchGame");
 
     const pairs = [
-      { name: "Cat", img: "coloring/cat.png" },
-      { name: "Elephant", img: "coloring/elephant.png" },
-      { name: "Flower", img: "coloring/flower.png" },
+      { name: "Cat", img: "https://i.imgur.com/3rBkflI.png" },
+      { name: "Elephant", img: "https://i.imgur.com/3Q4duMm.png" },
+      { name: "Flower", img: "https://i.imgur.com/Co64qhD.png" },
     ];
 
     function startMatchGame() {
       matchGameDiv.innerHTML = "";
-      pairs.forEach((pair, i) => {
+      pairs.forEach((pair) => {
         const btn = document.createElement("button");
         btn.textContent = pair.name;
-        btn.style.margin = "5px";
+        btn.style.margin = "8px";
+        btn.style.padding = "10px 18px";
+        btn.style.fontWeight = "bold";
+        btn.style.borderRadius = "8px";
+        btn.style.border = "2px solid #ff6600";
+        btn.style.background = "#fff3e6";
+        btn.style.cursor = "pointer";
+
         btn.onclick = () => alert(`You matched: ${pair.name}`);
+
         matchGameDiv.appendChild(btn);
       });
     }
@@ -234,38 +253,4 @@
 
     // Simple Chatbot (random replies)
     const chatOutput = document.getElementById("chatOutput");
-    const chatInput = document.getElementById("chatInput");
-    const chatSend = document.getElementById("chatSend");
-
-    const replies = [
-      "Hello! How can I help you today?",
-      "Did you know lions are called the king of the jungle?",
-      "Keep learning and have fun!",
-      "Always be kind to others.",
-      "Reading books makes you smart!",
-    ];
-
-    function botReply() {
-      const idx = Math.floor(Math.random() * replies.length);
-      return replies[idx];
-    }
-
-    chatSend.addEventListener("click", () => {
-      const userText = chatInput.value.trim();
-      if (!userText) return;
-      const userDiv = document.createElement("div");
-      userDiv.textContent = "You: " + userText;
-      userDiv.style.fontWeight = "bold";
-      chatOutput.appendChild(userDiv);
-
-      const botDiv = document.createElement("div");
-      botDiv.textContent = "Zyntra Bot: " + botReply();
-      botDiv.style.marginBottom = "10px";
-      chatOutput.appendChild(botDiv);
-
-      chatInput.value = "";
-      chatOutput.scrollTop = chatOutput.scrollHeight;
-    });
-  </script>
-</body>
-</html>
+    const chatInput = document.getElementById
