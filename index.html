@@ -1,374 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Zyntra Book Library</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      background: #181c24;
-      color: #fff;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: linear-gradient(90deg, #00c3ff, #fc00ff);
-      padding: 20px 0 10px 0;
-      text-align: center;
-      font-size: 2.2rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-      box-shadow: 0 2px 8px #0004;
-      position: relative;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 8px;
-    }
-    .logo-img {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #00c3ff 60%, #fc00ff 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      font-weight: bold;
-      color: #fff;
-      box-shadow: 0 2px 8px #0003;
-      border: 2px solid #fff3;
-    }
-    .logo-text {
-      font-size: 2rem;
-      font-weight: bold;
-      color: #fff;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 8px #fc00ff44;
-    }
-    .subtitle {
-      font-size: 1.1rem;
-      color: #e0e0e0;
-      margin-bottom: 8px;
-      letter-spacing: 1px;
-    }
-    .categories {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 30px 0 0 0;
-      gap: 15px;
-    }
-    .category-btn {
-      background: #232946;
-      color: #fff;
-      border: none;
-      padding: 10px 22px;
-      border-radius: 25px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: background 0.2s;
-      outline: none;
-      box-shadow: 0 2px 8px #0002;
-    }
-    .category-btn.active, .category-btn:hover {
-      background: linear-gradient(90deg, #00c3ff, #fc00ff);
-      color: #fff;
-    }
-    .books-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 25px;
-      margin: 35px 0 50px 0;
-    }
-    .book-card {
-      background: #232946;
-      border-radius: 18px;
-      box-shadow: 0 4px 16px #0003;
-      width: 260px;
-      padding: 18px 16px 20px 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: transform 0.2s;
-      position: relative;
-    }
-    .book-card:hover {
-      transform: translateY(-6px) scale(1.03);
-      box-shadow: 0 8px 24px #00c3ff44;
-    }
-    .book-cover {
-      width: 120px;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 14px;
-      box-shadow: 0 2px 8px #fc00ff44;
-      background: #fff;
-    }
-    .book-title {
-      font-size: 1.1rem;
-      font-weight: bold;
-      margin-bottom: 6px;
-      text-align: center;
-    }
-    .book-author {
-      font-size: 0.98rem;
-      color: #b8b8ff;
-      margin-bottom: 8px;
-      text-align: center;
-    }
-    .book-desc {
-      font-size: 0.97rem;
-      color: #e0e0e0;
-      margin-bottom: 12px;
-      text-align: center;
-      min-height: 48px;
-    }
-    .read-btn {
-      background: linear-gradient(90deg, #00c3ff, #fc00ff);
-      color: #fff;
-      border: none;
-      padding: 8px 22px;
-      border-radius: 20px;
-      font-size: 1rem;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.2s;
-      margin-top: 6px;
-      box-shadow: 0 2px 8px #0002;
-      text-decoration: none;
-      display: inline-block;
-    }
-    .read-btn:hover {
-      background: linear-gradient(90deg, #fc00ff, #00c3ff);
-    }
-    .zyntra-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: linear-gradient(90deg, #00c3ff, #fc00ff);
-      color: #fff;
-      font-size: 0.85rem;
-      font-weight: bold;
-      padding: 3px 10px;
-      border-radius: 12px;
-      letter-spacing: 1px;
-      box-shadow: 0 2px 8px #0002;
-      opacity: 0.85;
-    }
-    @media (max-width: 700px) {
-      .books-container {
-        flex-direction: column;
-        align-items: center;
-      }
-      .book-card {
-        width: 90vw;
-        max-width: 320px;
-      }
-      .logo-text {
-        font-size: 1.3rem;
-      }
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zyntra Kids Hub</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <div class="logo">
-      <div class="logo-img">Z</div>
-      <div class="logo-text">Zyntra Book Library</div>
-    </div>
-    <div class="subtitle">Read, Learn & Enjoy! | Kids • Stories • Science • Islamic</div>
+    <h1>Zyntra Kids Hub</h1>
+    <nav>
+      <a href="#stories">Stories</a>
+      <a href="#poems">Poems</a>
+      <a href="#coloring">Coloring</a>
+      <a href="#learning">Learning</a>
+      <a href="#games">Games</a>
+      <a href="#videos">Videos</a>
+      <a href="#chatbot">Chatbot</a>
+      <a href="#word">Word of the Day</a>
+    </nav>
   </header>
-  <div class="categories" id="categories"></div>
-  <div class="books-container" id="books"></div>
 
-  <script>
-    // Original, AI-generated book data
-    const booksData = [
-      // Kids Books
-      {
-        category: "Kids",
-        title: "The Rainbow Adventure",
-        author: "Zyntra",
-        desc: "Join Lily and her cat on a magical journey across a rainbow to find the colors of happiness.",
-        cover: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.storyberries.com/bedtime-stories-the-little-rainbow/"
-      },
-      {
-        category: "Kids",
-        title: "Bunny's Lost Carrot",
-        author: "Zyntra",
-        desc: "Bunny can't find his favorite carrot! Help him search the garden and meet new friends.",
-        cover: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.storyberries.com/bedtime-stories-the-brave-little-bunny/"
-      },
-      {
-        category: "Kids",
-        title: "Counting with Colors",
-        author: "Zyntra",
-        desc: "Learn to count from 1 to 10 with colorful animals and fun rhymes.",
-        cover: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.storyberries.com/bedtime-stories-counting-animals/"
-      },
-      {
-        category: "Kids",
-        title: "The Magic Shoes",
-        author: "Zyntra",
-        desc: "A pair of magic shoes takes Sara to a world of dreams and adventure.",
-        cover: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.storyberries.com/bedtime-stories-the-magic-shoes/"
-      },
-      {
-        category: "Kids",
-        title: "The Lost Teddy",
-        author: "Zyntra",
-        desc: "Ali is sad when his teddy goes missing. Will he find it before bedtime?",
-        cover: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.storyberries.com/bedtime-stories-the-lost-teddy/"
-      },
-      {
-        category: "Kids",
-        title: "The Little Star",
-        author: "Zyntra",
-        desc: "A tiny star feels lonely until it discovers the power of friendship in the night sky.",
-        cover: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.storyberries.com/bedtime-stories-the-little-star/"
-      },
-      // Stories
-      {
-        category: "Stories",
-        title: "The Clever Fox",
-        author: "Zyntra",
-        desc: "A clever fox outsmarts a hungry wolf in this classic tale of wit and wisdom.",
-        cover: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.shortkidstories.com/story/the-clever-fox/"
-      },
-      {
-        category: "Stories",
-        title: "The Honest Woodcutter",
-        author: "Zyntra",
-        desc: "A story about honesty and kindness from the magical Zyntra forest.",
-        cover: "https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.shortkidstories.com/story/the-honest-woodcutter/"
-      },
-      {
-        category: "Stories",
-        title: "The Lion and the Mouse",
-        author: "Zyntra",
-        desc: "A tiny mouse helps a mighty lion. A story of courage and gratitude.",
-        cover: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.shortkidstories.com/story/the-lion-and-the-mouse/"
-      },
-      {
-        category: "Stories",
-        title: "The Ant and the Dove",
-        author: "Zyntra",
-        desc: "A story of friendship and helping each other in the Zyntra woods.",
-        cover: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.shortkidstories.com/story/the-ant-and-the-dove/"
-      },
-      // Science
-      {
-        category: "Science",
-        title: "What is the Solar System?",
-        author: "Zyntra",
-        desc: "Learn about the sun, planets, and stars in our amazing solar system.",
-        cover: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.nasa.gov/kidsclub/index.html"
-      },
-      {
-        category: "Science",
-        title: "The Water Cycle",
-        author: "Zyntra",
-        desc: "How does water travel from the sky to the ground and back? Discover the water cycle!",
-        cover: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.ducksters.com/science/earth_science/water_cycle.php"
-      },
-      {
-        category: "Science",
-        title: "Animals and Their Homes",
-        author: "Zyntra",
-        desc: "Discover where different animals live and how they build their homes.",
-        cover: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.kids-world-travel-guide.com/animal-habitats.html"
-      },
-      // Islamic
-      {
-        category: "Islamic",
-        title: "The Story of Prophet Yunus (AS)",
-        author: "Zyntra",
-        desc: "Learn about the patience and faith of Prophet Yunus (AS) in this inspiring story.",
-        cover: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.muslimkidsguide.com/prophet-yunus-story/"
-      },
-      {
-        category: "Islamic",
-        title: "Five Pillars of Islam",
-        author: "Zyntra",
-        desc: "An easy guide to the five pillars of Islam for kids and families.",
-        cover: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.learnreligions.com/the-five-pillars-of-islam-2004291"
-      },
-      {
-        category: "Islamic",
-        title: "Good Manners in Islam",
-        author: "Zyntra",
-        desc: "Learn about kindness, honesty, and respect in Islam with Zyntra's guide.",
-        cover: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-        link: "https://www.soundvision.com/article/teaching-children-good-manners-in-islam"
-      }
-    ];
+  <main>
+    <section id="stories">
+      <h2>Stories</h2>
+      <ul>
+        <li><a href="stories/story1.html">The Brave Little Lion</a></li>
+        <li><a href="stories/story2.html">The Wise Owl</a></li>
+        <li><a href="stories/story3.html">The Magical Forest</a></li>
+      </ul>
+    </section>
 
-    // Get unique categories
-    const categories = [...new Set(booksData.map(book => book.category))];
+    <section id="poems">
+      <h2>Poems & Rhymes</h2>
+      <ul>
+        <li><a href="poems/poem1.html">Twinkle Twinkle Little Star</a></li>
+        <li><a href="poems/poem2.html">The Rainbow</a></li>
+      </ul>
+    </section>
 
-    // Render category buttons
-    const categoriesDiv = document.getElementById('categories');
-    categories.forEach((cat, idx) => {
-      const btn = document.createElement('button');
-      btn.className = 'category-btn' + (idx === 0 ? ' active' : '');
-      btn.innerText = cat;
-      btn.onclick = () => showCategory(cat, btn);
-      categoriesDiv.appendChild(btn);
-    });
+    <section id="coloring">
+      <h2>Coloring Pages</h2>
+      <div class="coloring-gallery">
+        <img src="coloring/cat.png" alt="Cat Coloring" />
+        <img src="coloring/elephant.png" alt="Elephant Coloring" />
+        <img src="coloring/flower.png" alt="Flower Coloring" />
+      </div>
+    </section>
 
-    // Show books for selected category
-    function showCategory(category, btn) {
-      // Set active button
-      document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      // Filter books
-      const books = booksData.filter(book => book.category === category);
-      renderBooks(books);
-    }
+    <section id="learning">
+      <h2>Learning Zone</h2>
+      <p>Alphabets: A B C D E F G ...</p>
+      <p>Numbers: 1 2 3 4 5 6 7 8 9 10</p>
+      <p>Shapes: Circle, Square, Triangle</p>
+    </section>
 
-    // Render books
-    function renderBooks(books) {
-      const booksDiv = document.getElementById('books');
-      booksDiv.innerHTML = '';
-      books.forEach(book => {
-        const card = document.createElement('div');
-        card.className = 'book-card';
-        card.innerHTML = `
-          <div class="zyntra-badge">Zyntra</div>
-          <img class="book-cover" src="${book.cover}" alt="${book.title}">
-          <div class="book-title">${book.title}</div>
-          <div class="book-author">by ${book.author}</div>
-          <div class="book-desc">${book.desc}</div>
-          <a class="read-btn" href="${book.link}" target="_blank">Read Online</a>
-        `;
-        booksDiv.appendChild(card);
-      });
-    }
+    <section id="games">
+      <h2>Fun Games</h2>
+      <button id="matchGameBtn">Start Matching Game</button>
+      <div id="matchGame" class="game-container"></div>
+    </section>
 
-    // Show first category by default
-    renderBooks(booksData.filter(book => book.category === categories[0]));
-  </script>
+    <section id="videos">
+      <h2>ZyntraTube Kids Videos</h2>
+      <div class="video-list">
+        <iframe width="300" height="170" src="https://www.youtube.com/embed/3jx8tx9X1YA" title="Kids Video 1" frameborder="0" allowfullscreen></iframe>
+        <iframe width="300" height="170" src="https://www.youtube.com/embed/O8dwprzYYN0" title="Kids Video 2" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <section id="chatbot">
+      <h2>Chatbot</h2>
+      <div id="chatOutput" class="chat-output"></div>
+      <input type="text" id="chatInput" placeholder="Say hi to Zyntra Bot!" />
+      <button id="chatSend">Send</button>
+    </section>
+
+    <section id="word">
+      <h2>Word of the Day</h2>
+      <p id="wordOfDay"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Zyntra Kids Hub</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
+* {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+body {
+  background: #f0f8ff;
+  color: #333;
+  padding: 10px;
+}
+
+header {
+  text-align: center;
+  background: #ffcc00;
+  padding: 15px 0;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  color: #003366;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #003366;
+}
+
+nav a:hover {
+  color: #ff6600;
+}
+
+main section {
+  margin-bottom: 30px;
+  background: #fff3e6;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 5px #ccc;
+}
+
+h2 {
+  color: #ff6600;
+  margin-bottom: 10px;
+}
+
+ul {
+  list-style-type: square;
+  padding-left: 20px;
+}
+
+.coloring-gallery img {
+  width: 120px;
+  margin: 10px;
+  border: 2px solid #ff6600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.coloring-gallery img:hover {
+  transform: scale(1.1);
+}
+
+.game-container {
+  margin-top: 15px;
+  padding: 10px;
+  background: #fff;
+  border: 2px solid #ff6600;
+  border-radius: 10px;
+  min-height: 150px;
+}
+
+.video-list iframe {
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.chat-output {
+  min-height: 100px;
+  background: #e6f7ff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  overflow-y: auto;
+  max-height: 150px;
+}
+
+#chatInput {
+  padding: 8px;
+  width: 70%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#chatSend {
+  padding: 8px 15px;
+  background: #ff6600;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#chatSend:hover {
+  background: #e65500;
+}
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: #666;
+}
+// Word of the Day (Random from list)
+const words = [
+  { word: "Adventure", meaning: "An exciting or unusual experience." },
+  { word: "Brave", meaning: "Showing courage." },
+  { word: "Curious", meaning: "Eager to learn or know." },
+  { word: "Friendly", meaning: "Kind and pleasant." },
+  { word: "Magic", meaning: "The power to make impossible things happen." },
+];
+
+function showWordOfDay() {
+  const idx = Math.floor(Math.random() * words.length);
+  const wordEl = document.getElementById("wordOfDay");
+  const w = words[idx];
+  wordEl.innerHTML = `<strong>${w.word}</strong>: ${w.meaning}`;
+}
+showWordOfDay();
+
+// Simple Matching Game
+const matchGameBtn = document.getElementById("matchGameBtn");
+const matchGameDiv = document.getElementById("matchGame");
+
+const pairs = [
+  { name: "Cat", img: "coloring/cat.png" },
+  { name: "Elephant", img: "coloring/elephant.png" },
+  { name: "Flower", img: "coloring/flower.png" },
+];
+
+function startMatchGame() {
+  matchGameDiv.innerHTML = "";
+  pairs.forEach((pair, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = pair.name;
+    btn.style.margin = "5px";
+    btn.onclick = () => alert(`You matched: ${pair.name}`);
+    matchGameDiv.appendChild(btn);
+  });
+}
+
+matchGameBtn.addEventListener("click", startMatchGame);
+
+// Simple Chatbot (random replies)
+const chatOutput = document.getElementById("chatOutput");
+const chatInput = document.getElementById("chatInput");
+const chatSend = document.getElementById("chatSend");
+
+const replies = [
+  "Hello! How can I help you today?",
+  "Did you know lions are called the king of the jungle?",
+  "Keep learning and have fun!",
