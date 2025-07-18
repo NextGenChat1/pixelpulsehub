@@ -207,7 +207,9 @@
   const storyText = document.getElementById('story-text');
 
   function createFilterButtons(container, items, isCategory = true) {
-    // Add "All" button first
+    // Clear container first
+    container.innerHTML = '';
+    // Add "All" button
     const allBtn = document.createElement('button');
     allBtn.textContent = 'All';
     allBtn.classList.add('active');
@@ -225,12 +227,4 @@
       btn.onclick = () => {
         if (isCategory) selectedCategory = item;
         else selectedAge = item.value;
-        updateActiveButtons(container, btn);
-        displayStories();
-      };
-      container.appendChild(btn);
-    });
-  }
-
-  function updateActiveButtons(container, activeBtn) {
-    Array.from(container.children).forEach
+       
