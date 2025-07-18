@@ -6,225 +6,291 @@
 <title>Zyntra Kids Library</title>
 <style>
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #fdf6f0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: #f0f8ff;
     margin: 0; padding: 20px;
-    text-align: center;
     color: #333;
   }
+  header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
   h1 {
-    color: #ff4081;
-    margin-bottom: 10px;
+    color: #2c3e50;
+    font-size: 2.8em;
   }
   .filters {
-    margin: 15px 0;
+    margin-bottom: 20px;
+    text-align: center;
   }
-  .filters button {
-    background: #ff80ab;
-    border: none;
-    color: white;
-    padding: 8px 14px;
-    margin: 5px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    transition: background-color 0.3s ease;
+  .filters select {
+    font-size: 1em;
+    padding: 6px 12px;
+    margin: 0 10px;
   }
-  .filters button:hover,
-  .filters button.active {
-    background: #e040fb;
+  .books {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
   }
-  #bookGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill,minmax(160px,1fr));
-    gap: 20px;
-    margin-top: 20px;
-  }
-  .book {
+  .book-card {
     background: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 12px rgb(0 0 0 / 0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
+    width: 280px;
     cursor: pointer;
     transition: transform 0.2s ease;
-    text-align: left;
+    display: flex;
+    flex-direction: column;
   }
-  .book:hover {
+  .book-card:hover {
     transform: scale(1.05);
   }
-  .book img {
+  .book-cover {
     width: 100%;
-    border-radius: 10px 10px 0 0;
-    height: 200px;
+    height: 160px;
     object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+  .book-info {
+    padding: 15px;
+    flex-grow: 1;
   }
   .book-title {
-    font-weight: 700;
-    padding: 12px 10px 6px;
-    color: #222;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #34495e;
   }
   .book-meta {
-    padding: 0 10px 12px;
-    font-size: 13px;
-    color: #666;
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin-bottom: 10px;
   }
-  #story-box {
-    display: none;
+  .story-popup {
     position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 700px;
-    width: 90%;
-    max-height: 80vh;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
     overflow-y: auto;
-    background: white;
-    box-shadow: 0 6px 18px rgb(0 0 0 / 0.25);
-    border-radius: 14px;
-    padding: 25px 30px 40px;
     z-index: 1000;
-    text-align: left;
   }
-  #story-box h2 {
+  .story-content {
+    background: white;
+    border-radius: 15px;
+    max-width: 700px;
+    max-height: 90vh;
+    padding: 25px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    overflow-y: auto;
+    position: relative;
+  }
+  .story-content h2 {
     margin-top: 0;
-    color: #ff4081;
+    color: #2c3e50;
   }
-  #story-box p {
-    line-height: 1.5;
-    white-space: pre-line;
+  .story-content p {
+    line-height: 1.6;
+    margin-bottom: 12px;
+    font-size: 1.05em;
   }
-  #story-box button.close-btn {
+  .close-btn {
     position: absolute;
-    top: 15px; right: 15px;
-    background: #f44336;
+    right: 15px;
+    top: 15px;
+    background: #e74c3c;
     border: none;
     color: white;
     font-weight: bold;
-    font-size: 18px;
-    padding: 6px 14px;
-    border-radius: 8px;
+    font-size: 1.1em;
+    padding: 5px 10px;
+    border-radius: 6px;
     cursor: pointer;
+    transition: background 0.3s ease;
   }
-  #overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 900;
+  .close-btn:hover {
+    background: #c0392b;
+  }
+  @media(max-width: 600px) {
+    .books {
+      flex-direction: column;
+      align-items: center;
+    }
+    .book-card {
+      width: 90%;
+    }
   }
 </style>
 </head>
 <body>
 
-  <h1>📚 Zyntra Kids Library</h1>
-
-  <div>
-    <h3>Filter by Category</h3>
-    <div class="filters" id="categoryFilters"></div>
+<header>
+  <h1>Zyntra Kids Library</h1>
+  <div class="filters">
+    <label>
+      Category: 
+      <select id="categoryFilter">
+        <option value="all">All</option>
+        <option value="adventure">Adventure</option>
+        <option value="animal">Animal</option>
+        <option value="moral">Moral</option>
+      </select>
+    </label>
   </div>
+</header>
 
-  <div>
-    <h3>Filter by Age Group</h3>
-    <div class="filters" id="ageFilters"></div>
+<section class="books" id="booksContainer">
+  <!-- Book cards inserted here dynamically -->
+</section>
+
+<!-- Story Popup -->
+<div class="story-popup" id="storyPopup">
+  <div class="story-content">
+    <button class="close-btn" id="closeStoryBtn">X</button>
+    <h2 id="storyTitle"></h2>
+    <div id="storyText"></div>
   </div>
-
-  <div id="bookGrid"></div>
-
-  <div id="overlay" onclick="closeStory()"></div>
-
-  <div id="story-box">
-    <button class="close-btn" onclick="closeStory()">×</button>
-    <h2 id="story-title"></h2>
-    <p id="story-text"></p>
-  </div>
+</div>
 
 <script>
-  const categories = [
-    'Animals', 'Fantasy', 'Moral', 'Adventure', 'Science', 'Mystery',
-    'Historical', 'Fairy Tales', 'Poetry', 'Biography', 'Horror', 'Mythology',
-    'Romance', 'Folk Tales', 'Technology', 'Space', 'Friendship', 'Magic',
-    'Sports', 'Education'
-  ];
-
-  const ageGroups = [
-    { label: 'All Ages', value: 'all' },
-    { label: '3-6 Years', value: '3-6' },
-    { label: '7-10 Years', value: '7-10' },
-    { label: '11-13 Years', value: '11-13' },
-    { label: '14+ Years', value: '14+' },
-  ];
-
-  const stories = [
+  const books = [
+    // Adventure
     {
       id: 1,
-      title: 'The Brave Little Elephant',
-      category: 'Animals',
-      ageGroup: '3-6',
-      cover: 'https://i.imgur.com/eK6Yn1J.jpg',
-      story: `Once upon a time in a big forest, there lived a little elephant named Ella. She was small but very brave.\n\nOne day, she saved her friends from a big storm by guiding them to a safe cave. Everyone in the forest loved Ella because she was kind and courageous.\n\nMessage: Even if you are small, you can be brave and help others.`
+      category: "adventure",
+      title: "The Secret of Moon Hill",
+      cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Old_book_bindings_in_a_library_2018.jpg/320px-Old_book_bindings_in_a_library_2018.jpg",
+      ageGroup: "7-12",
+      longStory: `On top of Moon Hill, a quiet girl named Tara discovered a silver key buried in the ground.
+It was old and cold, shining under the afternoon sun. She didn’t know it would unlock a door to a hidden world filled with flying turtles, whispering trees, and a lost city.  
+Tara took a deep breath and turned the key in the old door. Suddenly, the ground trembled, and the world around her changed.  
+She found herself in a magical land where the sky was always painted in beautiful colors, and animals talked like old friends.  
+The city was hidden behind a waterfall that shimmered like diamonds in the sunlight. Inside, the streets were lined with glowing plants and glowing stones that lit up the night.  
+Tara met a wise old owl who told her that she was chosen to protect the secret of Moon Hill from those who wished to misuse its magic.  
+She agreed to help and learned many secrets about courage, friendship, and the power of believing in yourself.  
+In the end, Tara returned home but kept the silver key safe, knowing one day she might need to return to the magical city again.`,
+      shortStory: `Tara found a silver key on Moon Hill.  
+She used it to open a magical door.  
+Inside was a world of talking animals and glowing plants.  
+Tara became the protector of the secret city.  
+She learned the importance of courage and friendship.  
+In the end, she returned home but kept the key safe.`
     },
+    // Animal
     {
       id: 2,
-      title: 'Magic Shoes Adventure',
-      category: 'Fantasy',
-      ageGroup: '7-10',
-      cover: 'https://i.imgur.com/fRbEJtN.jpg',
-      story: `A girl found a pair of magic shoes that let her fly.\n\nShe used her power to help animals and children in need.\n\nHer adventures took her across mountains and oceans.\n\nMessage: Use your gifts to bring joy and kindness to the world.`
+      category: "animal",
+      title: "Luna and the Lost Elephant",
+      cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Elephant_and_baby_%2851695771431%29.jpg/320px-Elephant_and_baby_%2851695771431%29.jpg",
+      ageGroup: "5-10",
+      longStory: `Luna was a young girl who loved animals more than anything else in the world.  
+One day, while walking in the forest near her village, she heard a soft cry.  
+She followed the sound and found a small elephant calf, lost and frightened.  
+The calf had wandered away from its herd and was all alone.  
+Luna gently calmed the elephant and promised to help it find its family.  
+Together, they traveled through the forest, facing many challenges, but Luna’s kindness and bravery helped them.  
+She met other animals who guided her on the path to the elephant's home.  
+At last, they found the herd, and the baby elephant joyfully reunited with its family.  
+Luna felt happy knowing she helped a friend in need and learned how important it is to care for all creatures.`,
+      shortStory: `Luna found a lost baby elephant.  
+She helped it find its family.  
+They traveled through the forest together.  
+Luna was kind and brave.  
+The baby elephant was happy to be home.  
+Luna learned the value of caring for animals.`
     },
+    // Moral
     {
       id: 3,
-      title: 'Honesty is the Best Policy',
-      category: 'Moral',
-      ageGroup: '7-10',
-      cover: 'https://i.imgur.com/jq6RmHc.jpg',
-      story: `Ali found a lost wallet full of money. Instead of keeping it, he returned it to the owner.\n\nEveryone praised Ali for his honesty.\n\nMessage: Always be honest and do the right thing.`
-    },
-    {
-      id: 4,
-      title: 'The Space Explorers',
-      category: 'Science',
-      ageGroup: '11-13',
-      cover: 'https://i.imgur.com/7VqQRoR.jpg',
-      story: `A group of kids built a rocket and traveled to the moon.\n\nThey discovered new things and learned how stars shine.\n\nTheir journey inspired many young scientists.\n\nMessage: Dream big and explore the unknown.`
-    },
-    {
-      id: 5,
-      title: 'The Haunted House Mystery',
-      category: 'Mystery',
-      ageGroup: '14+',
-      cover: 'https://i.imgur.com/xuDQOXq.jpg',
-      story: `A group of teens decided to explore an old haunted house.\n\nThey found clues and solved the mystery of the ghost.\n\nIn the end, they learned that courage and friendship can overcome fear.\n\nMessage: Face your fears with friends by your side.`
-    },
+      category: "moral",
+      title: "The Honest Woodcutter",
+      cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Woodcutter_story_illustration.jpg/320px-Woodcutter_story_illustration.jpg",
+      ageGroup: "6-11",
+      longStory: `Once upon a time, a poor woodcutter was cutting trees near a river.  
+Suddenly, his axe slipped from his hand and fell into the deep water.  
+He was very sad because he had no money to buy a new one.  
+Suddenly, a fairy appeared and asked why he was upset.  
+The woodcutter explained the loss of his axe.  
+The fairy dived into the water and brought out a golden axe.  
+The woodcutter honestly said it was not his.  
+Then she brought a silver axe, but the woodcutter said no again.  
+Finally, she brought his old iron axe, and he happily claimed it.  
+The fairy rewarded his honesty by giving him all three axes.  
+The woodcutter returned home, happy and proud of being honest.`,
+      shortStory: `A woodcutter lost his axe in the river.  
+A fairy gave him a golden axe, but he said it was not his.  
+She gave him a silver axe, but he refused again.  
+When she gave him his own axe, he took it happily.  
+Because he was honest, the fairy rewarded him with all three axes.`
+    }
   ];
 
-  let selectedCategory = 'all';
-  let selectedAge = 'all';
+  const booksContainer = document.getElementById('booksContainer');
+  const categoryFilter = document.getElementById('categoryFilter');
+  const storyPopup = document.getElementById('storyPopup');
+  const storyTitle = document.getElementById('storyTitle');
+  const storyText = document.getElementById('storyText');
+  const closeStoryBtn = document.getElementById('closeStoryBtn');
 
-  const categoryFiltersDiv = document.getElementById('categoryFilters');
-  const ageFiltersDiv = document.getElementById('ageFilters');
-  const bookGrid = document.getElementById('bookGrid');
-  const storyBox = document.getElementById('story-box');
-  const overlay = document.getElementById('overlay');
-  const storyTitle = document.getElementById('story-title');
-  const storyText = document.getElementById('story-text');
+  function displayBooks() {
+    const category = categoryFilter.value;
+    booksContainer.innerHTML = '';
+    const filteredBooks = category === 'all' ? books : books.filter(b => b.category === category);
+    
+    filteredBooks.forEach(book => {
+      const card = document.createElement('div');
+      card.className = 'book-card';
+      card.innerHTML = `
+        <img src="${book.cover}" alt="${book.title} cover" class="book-cover" />
+        <div class="book-info">
+          <div class="book-title">${book.title}</div>
+          <div class="book-meta">Category: ${capitalize(book.category)} | Age: ${book.ageGroup}</div>
+          <div><button onclick="showStory(${book.id}, 'long')" style="cursor:pointer;">Read Long Story</button> 
+          <button onclick="showStory(${book.id}, 'short')" style="cursor:pointer;">Read Short Story</button></div>
+        </div>
+      `;
+      booksContainer.appendChild(card);
+    });
+  }
 
-  function createFilterButtons(container, items, isCategory = true) {
-    // Clear container first
-    container.innerHTML = '';
-    // Add "All" button
-    const allBtn = document.createElement('button');
-    allBtn.textContent = 'All';
-    allBtn.classList.add('active');
-    allBtn.onclick = () => {
-      if (isCategory) selectedCategory = 'all';
-      else selectedAge = 'all';
-      updateActiveButtons(container, allBtn);
-      displayStories();
-    };
-    container.appendChild(allBtn);
+  function capitalize(text) {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
 
-    items.forEach(item => {
-      const btn = document.createElement('button');
-      btn.textContent = isCategory ? item : item.label;
-      btn.onclick = () => {
-        if (isCategory) selectedCategory = item;
-        else selectedAge = item.value;
-       
+  function showStory(id, type) {
+    const book = books.find(b => b.id === id);
+    storyTitle.textContent = book.title;
+    storyText.innerHTML = '';
+    const story = type === 'long' ? book.longStory : book.shortStory;
+
+    // Split paragraphs by new lines for long story
+    if(type === 'long'){
+      story.split('\n').forEach(p => {
+        const para = document.createElement('p');
+        para.textContent = p.trim();
+        storyText.appendChild(para);
+      });
+    } else {
+      // Short story just put in one block with line breaks
+      storyText.innerHTML = story.split('\n').map(line => line.trim()).join('<br>');
+    }
+    storyPopup.style.display = 'flex';
+  }
+
+  closeStoryBtn.addEventListener('click', () => {
+    storyPopup.style.display = 'none';
+  });
+
+  categoryFilter.addEventListener('change', displayBooks);
+
+  // Initial display
+  displayBooks();
+</script>
+
+</body>
+</html>
