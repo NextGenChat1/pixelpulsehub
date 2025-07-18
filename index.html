@@ -6,123 +6,131 @@
 <title>Zyntra Kids Library</title>
 <style>
   body {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    background: #f0f8ff;
+    font-family: Georgia, serif;
+    background: #fff8e7;
     margin: 0; padding: 20px;
-    color: #333;
+    color: #222;
+    line-height: 1.7;
   }
   header {
     text-align: center;
     margin-bottom: 30px;
   }
   h1 {
-    color: #2c3e50;
-    font-size: 2.8em;
+    color: #5d4037;
+    font-size: 3em;
   }
   .filters {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     text-align: center;
   }
   .filters select {
-    font-size: 1em;
-    padding: 6px 12px;
+    font-size: 1.2em;
+    padding: 8px 16px;
     margin: 0 10px;
+    border-radius: 6px;
+    border: 1px solid #c49b66;
   }
   .books {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 18px;
     justify-content: center;
   }
   .book-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
-    width: 280px;
+    background: #fdf6e3;
+    border-radius: 14px;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+    width: 320px;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 0.25s ease;
     display: flex;
     flex-direction: column;
   }
   .book-card:hover {
-    transform: scale(1.05);
+    transform: scale(1.06);
   }
   .book-cover {
     width: 100%;
-    height: 160px;
+    height: 180px;
     object-fit: cover;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
   }
   .book-info {
-    padding: 15px;
+    padding: 18px;
     flex-grow: 1;
   }
   .book-title {
-    font-size: 1.3em;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #34495e;
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #6d4c41;
   }
   .book-meta {
-    font-size: 0.9em;
-    color: #7f8c8d;
-    margin-bottom: 10px;
+    font-size: 1em;
+    color: #a1887f;
+    margin-bottom: 15px;
   }
   .story-popup {
     position: fixed;
     top:0; left:0; right:0; bottom:0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.65);
     display: none;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 25px;
     overflow-y: auto;
-    z-index: 1000;
+    z-index: 2000;
   }
   .story-content {
-    background: white;
-    border-radius: 15px;
-    max-width: 700px;
+    background: #fff8e7;
+    border-radius: 18px;
+    max-width: 750px;
     max-height: 90vh;
-    padding: 25px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    padding: 30px 35px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
     overflow-y: auto;
     position: relative;
   }
   .story-content h2 {
     margin-top: 0;
-    color: #2c3e50;
+    color: #5d4037;
+    font-size: 2.2em;
   }
   .story-content p {
-    line-height: 1.6;
-    margin-bottom: 12px;
-    font-size: 1.05em;
+    line-height: 1.85;
+    margin-bottom: 18px;
+    font-size: 1.15em;
   }
   .close-btn {
     position: absolute;
-    right: 15px;
-    top: 15px;
-    background: #e74c3c;
+    right: 20px;
+    top: 20px;
+    background: #a0522d;
     border: none;
     color: white;
     font-weight: bold;
-    font-size: 1.1em;
-    padding: 5px 10px;
-    border-radius: 6px;
+    font-size: 1.3em;
+    padding: 6px 14px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background 0.3s ease;
   }
   .close-btn:hover {
-    background: #c0392b;
+    background: #7b3f18;
   }
-  @media(max-width: 600px) {
+  @media(max-width: 640px) {
     .books {
       flex-direction: column;
       align-items: center;
     }
     .book-card {
-      width: 90%;
+      width: 95%;
+    }
+    .story-content {
+      max-width: 90vw;
+      padding: 25px 20px;
     }
   }
 </style>
@@ -149,9 +157,9 @@
 </section>
 
 <!-- Story Popup -->
-<div class="story-popup" id="storyPopup">
+<div class="story-popup" id="storyPopup" tabindex="0" role="dialog" aria-modal="true" aria-labelledby="storyTitle">
   <div class="story-content">
-    <button class="close-btn" id="closeStoryBtn">X</button>
+    <button class="close-btn" id="closeStoryBtn" aria-label="Close Story Popup">X</button>
     <h2 id="storyTitle"></h2>
     <div id="storyText"></div>
   </div>
@@ -166,15 +174,24 @@
       title: "The Secret of Moon Hill",
       cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Old_book_bindings_in_a_library_2018.jpg/320px-Old_book_bindings_in_a_library_2018.jpg",
       ageGroup: "7-12",
-      longStory: `On top of Moon Hill, a quiet girl named Tara discovered a silver key buried in the ground.
-It was old and cold, shining under the afternoon sun. She didn’t know it would unlock a door to a hidden world filled with flying turtles, whispering trees, and a lost city.  
-Tara took a deep breath and turned the key in the old door. Suddenly, the ground trembled, and the world around her changed.  
-She found herself in a magical land where the sky was always painted in beautiful colors, and animals talked like old friends.  
-The city was hidden behind a waterfall that shimmered like diamonds in the sunlight. Inside, the streets were lined with glowing plants and glowing stones that lit up the night.  
-Tara met a wise old owl who told her that she was chosen to protect the secret of Moon Hill from those who wished to misuse its magic.  
-She agreed to help and learned many secrets about courage, friendship, and the power of believing in yourself.  
-In the end, Tara returned home but kept the silver key safe, knowing one day she might need to return to the magical city again.`,
-      shortStory: `Tara found a silver key on Moon Hill.  
+      longStory: `
+On top of Moon Hill, a quiet girl named Tara discovered a silver key buried in the ground. It was old and cold, shining under the afternoon sun. She didn’t know it would unlock a door to a hidden world filled with flying turtles, whispering trees, and a lost city.
+
+Tara took a deep breath and turned the key in the old door. Suddenly, the ground trembled, and the world around her changed. She found herself in a magical land where the sky was always painted in beautiful colors, and animals talked like old friends.
+
+The city was hidden behind a waterfall that shimmered like diamonds in the sunlight. Inside, the streets were lined with glowing plants and glowing stones that lit up the night.
+
+Tara met a wise old owl who told her that she was chosen to protect the secret of Moon Hill from those who wished to misuse its magic.
+
+She agreed to help and learned many secrets about courage, friendship, and the power of believing in yourself.
+
+In the following days, Tara explored the magical city, learning new things every day. She made friends with talking rabbits, dancing fireflies, and a shy dragon who was afraid of heights.
+
+Each challenge Tara faced taught her about bravery, kindness, and hope. When dark clouds threatened the city, she helped gather all creatures to protect their home.
+
+Finally, when her adventure ended, Tara returned home but kept the silver key safe, knowing one day she might need to return to that magical world again.`,
+      shortStory: `
+Tara found a silver key on Moon Hill.  
 She used it to open a magical door.  
 Inside was a world of talking animals and glowing plants.  
 Tara became the protector of the secret city.  
@@ -188,16 +205,20 @@ In the end, she returned home but kept the key safe.`
       title: "Luna and the Lost Elephant",
       cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Elephant_and_baby_%2851695771431%29.jpg/320px-Elephant_and_baby_%2851695771431%29.jpg",
       ageGroup: "5-10",
-      longStory: `Luna was a young girl who loved animals more than anything else in the world.  
-One day, while walking in the forest near her village, she heard a soft cry.  
-She followed the sound and found a small elephant calf, lost and frightened.  
-The calf had wandered away from its herd and was all alone.  
-Luna gently calmed the elephant and promised to help it find its family.  
-Together, they traveled through the forest, facing many challenges, but Luna’s kindness and bravery helped them.  
-She met other animals who guided her on the path to the elephant's home.  
-At last, they found the herd, and the baby elephant joyfully reunited with its family.  
-Luna felt happy knowing she helped a friend in need and learned how important it is to care for all creatures.`,
-      shortStory: `Luna found a lost baby elephant.  
+      longStory: `
+Luna was a young girl who loved animals more than anything else in the world. One day, while walking in the forest near her village, she heard a soft cry. She followed the sound and found a small elephant calf, lost and frightened.
+
+The calf had wandered away from its herd and was all alone. Luna gently calmed the elephant and promised to help it find its family.
+
+Together, they traveled through the forest, facing many challenges, but Luna’s kindness and bravery helped them. She met other animals who guided her on the path to the elephant's home.
+
+They crossed rivers, climbed hills, and walked under stars, always helping and protecting each other. Luna never gave up, even when the journey was tough.
+
+At last, they found the herd, and the baby elephant joyfully reunited with its family. Luna felt happy knowing she helped a friend in need and learned how important it is to care for all creatures.
+
+The villagers celebrated Luna’s bravery, and she became a hero who reminded everyone that kindness is the greatest strength.`,
+      shortStory: `
+Luna found a lost baby elephant.  
 She helped it find its family.  
 They traveled through the forest together.  
 Luna was kind and brave.  
@@ -211,86 +232,5 @@ Luna learned the value of caring for animals.`
       title: "The Honest Woodcutter",
       cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Woodcutter_story_illustration.jpg/320px-Woodcutter_story_illustration.jpg",
       ageGroup: "6-11",
-      longStory: `Once upon a time, a poor woodcutter was cutting trees near a river.  
-Suddenly, his axe slipped from his hand and fell into the deep water.  
-He was very sad because he had no money to buy a new one.  
-Suddenly, a fairy appeared and asked why he was upset.  
-The woodcutter explained the loss of his axe.  
-The fairy dived into the water and brought out a golden axe.  
-The woodcutter honestly said it was not his.  
-Then she brought a silver axe, but the woodcutter said no again.  
-Finally, she brought his old iron axe, and he happily claimed it.  
-The fairy rewarded his honesty by giving him all three axes.  
-The woodcutter returned home, happy and proud of being honest.`,
-      shortStory: `A woodcutter lost his axe in the river.  
-A fairy gave him a golden axe, but he said it was not his.  
-She gave him a silver axe, but he refused again.  
-When she gave him his own axe, he took it happily.  
-Because he was honest, the fairy rewarded him with all three axes.`
-    }
-  ];
-
-  const booksContainer = document.getElementById('booksContainer');
-  const categoryFilter = document.getElementById('categoryFilter');
-  const storyPopup = document.getElementById('storyPopup');
-  const storyTitle = document.getElementById('storyTitle');
-  const storyText = document.getElementById('storyText');
-  const closeStoryBtn = document.getElementById('closeStoryBtn');
-
-  function displayBooks() {
-    const category = categoryFilter.value;
-    booksContainer.innerHTML = '';
-    const filteredBooks = category === 'all' ? books : books.filter(b => b.category === category);
-    
-    filteredBooks.forEach(book => {
-      const card = document.createElement('div');
-      card.className = 'book-card';
-      card.innerHTML = `
-        <img src="${book.cover}" alt="${book.title} cover" class="book-cover" />
-        <div class="book-info">
-          <div class="book-title">${book.title}</div>
-          <div class="book-meta">Category: ${capitalize(book.category)} | Age: ${book.ageGroup}</div>
-          <div><button onclick="showStory(${book.id}, 'long')" style="cursor:pointer;">Read Long Story</button> 
-          <button onclick="showStory(${book.id}, 'short')" style="cursor:pointer;">Read Short Story</button></div>
-        </div>
-      `;
-      booksContainer.appendChild(card);
-    });
-  }
-
-  function capitalize(text) {
-    return text.charAt(0).toUpperCase() + text.slice(1);
-  }
-
-  function showStory(id, type) {
-    const book = books.find(b => b.id === id);
-    storyTitle.textContent = book.title;
-    storyText.innerHTML = '';
-    const story = type === 'long' ? book.longStory : book.shortStory;
-
-    // Split paragraphs by new lines for long story
-    if(type === 'long'){
-      story.split('\n').forEach(p => {
-        const para = document.createElement('p');
-        para.textContent = p.trim();
-        storyText.appendChild(para);
-      });
-    } else {
-      // Short story just put in one block with line breaks
-      storyText.innerHTML = story.split('\n').map(line => line.trim()).join('<br>');
-    }
-    storyPopup.style.display = 'flex';
-  }
-
-  closeStoryBtn.addEventListener('click', () => {
-    storyPopup.style.display = 'none';
-  });
-
-  categoryFilter.addEventListener('change', displayBooks);
-
-  // Initial display
-  displayBooks();
-</script>
-
-</body>
-</html>
+      longStory: `
+Once upon a time, a poor woodcutter was cutting trees near a river. Suddenly, his axe slipped from his hand and fell into
