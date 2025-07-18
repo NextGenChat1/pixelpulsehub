@@ -4,7 +4,126 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Zyntra Kids Hub</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    body {
+      background: #f0f8ff;
+      color: #333;
+      padding: 10px;
+    }
+
+    header {
+      text-align: center;
+      background: #ffcc00;
+      padding: 15px 0;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: #003366;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #003366;
+    }
+
+    nav a:hover {
+      color: #ff6600;
+    }
+
+    main section {
+      margin-bottom: 30px;
+      background: #fff3e6;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 5px #ccc;
+    }
+
+    h2 {
+      color: #ff6600;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style-type: square;
+      padding-left: 20px;
+    }
+
+    .coloring-gallery img {
+      width: 120px;
+      margin: 10px;
+      border: 2px solid #ff6600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .coloring-gallery img:hover {
+      transform: scale(1.1);
+    }
+
+    .game-container {
+      margin-top: 15px;
+      padding: 10px;
+      background: #fff;
+      border: 2px solid #ff6600;
+      border-radius: 10px;
+      min-height: 150px;
+    }
+
+    .video-list iframe {
+      margin: 10px;
+      border-radius: 10px;
+    }
+
+    .chat-output {
+      min-height: 100px;
+      background: #e6f7ff;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      overflow-y: auto;
+      max-height: 150px;
+    }
+
+    #chatInput {
+      padding: 8px;
+      width: 70%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    #chatSend {
+      padding: 8px 15px;
+      background: #ff6600;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #chatSend:hover {
+      background: #e65500;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -86,173 +205,81 @@
     <p>© 2025 Zyntra Kids Hub</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    // Word of the Day (Random from list)
+    const words = [
+      { word: "Adventure", meaning: "An exciting or unusual experience." },
+      { word: "Brave", meaning: "Showing courage." },
+      { word: "Curious", meaning: "Eager to learn or know." },
+      { word: "Friendly", meaning: "Kind and pleasant." },
+      { word: "Magic", meaning: "The power to make impossible things happen." },
+    ];
+
+    function showWordOfDay() {
+      const idx = Math.floor(Math.random() * words.length);
+      const wordEl = document.getElementById("wordOfDay");
+      const w = words[idx];
+      wordEl.innerHTML = `<strong>${w.word}</strong>: ${w.meaning}`;
+    }
+    showWordOfDay();
+
+    // Simple Matching Game
+    const matchGameBtn = document.getElementById("matchGameBtn");
+    const matchGameDiv = document.getElementById("matchGame");
+
+    const pairs = [
+      { name: "Cat", img: "coloring/cat.png" },
+      { name: "Elephant", img: "coloring/elephant.png" },
+      { name: "Flower", img: "coloring/flower.png" },
+    ];
+
+    function startMatchGame() {
+      matchGameDiv.innerHTML = "";
+      pairs.forEach((pair, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = pair.name;
+        btn.style.margin = "5px";
+        btn.onclick = () => alert(`You matched: ${pair.name}`);
+        matchGameDiv.appendChild(btn);
+      });
+    }
+
+    matchGameBtn.addEventListener("click", startMatchGame);
+
+    // Simple Chatbot (random replies)
+    const chatOutput = document.getElementById("chatOutput");
+    const chatInput = document.getElementById("chatInput");
+    const chatSend = document.getElementById("chatSend");
+
+    const replies = [
+      "Hello! How can I help you today?",
+      "Did you know lions are called the king of the jungle?",
+      "Keep learning and have fun!",
+      "Always be kind to others.",
+      "Reading books makes you smart!",
+    ];
+
+    function botReply() {
+      const idx = Math.floor(Math.random() * replies.length);
+      return replies[idx];
+    }
+
+    chatSend.addEventListener("click", () => {
+      const userText = chatInput.value.trim();
+      if (!userText) return;
+      const userDiv = document.createElement("div");
+      userDiv.textContent = "You: " + userText;
+      userDiv.style.fontWeight = "bold";
+      chatOutput.appendChild(userDiv);
+
+      const botDiv = document.createElement("div");
+      botDiv.textContent = "Zyntra Bot: " + botReply();
+      botDiv.style.marginBottom = "10px";
+      chatOutput.appendChild(botDiv);
+
+      chatInput.value = "";
+      chatOutput.scrollTop = chatOutput.scrollHeight;
+    });
+  </script>
 </body>
 </html>
-* {
-  box-sizing: border-box;
-  margin: 0; padding: 0;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
-}
-
-body {
-  background: #f0f8ff;
-  color: #333;
-  padding: 10px;
-}
-
-header {
-  text-align: center;
-  background: #ffcc00;
-  padding: 15px 0;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-header h1 {
-  font-size: 2.5rem;
-  color: #003366;
-}
-
-nav a {
-  margin: 0 10px;
-  text-decoration: none;
-  font-weight: bold;
-  color: #003366;
-}
-
-nav a:hover {
-  color: #ff6600;
-}
-
-main section {
-  margin-bottom: 30px;
-  background: #fff3e6;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 2px 5px #ccc;
-}
-
-h2 {
-  color: #ff6600;
-  margin-bottom: 10px;
-}
-
-ul {
-  list-style-type: square;
-  padding-left: 20px;
-}
-
-.coloring-gallery img {
-  width: 120px;
-  margin: 10px;
-  border: 2px solid #ff6600;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.coloring-gallery img:hover {
-  transform: scale(1.1);
-}
-
-.game-container {
-  margin-top: 15px;
-  padding: 10px;
-  background: #fff;
-  border: 2px solid #ff6600;
-  border-radius: 10px;
-  min-height: 150px;
-}
-
-.video-list iframe {
-  margin: 10px;
-  border-radius: 10px;
-}
-
-.chat-output {
-  min-height: 100px;
-  background: #e6f7ff;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  overflow-y: auto;
-  max-height: 150px;
-}
-
-#chatInput {
-  padding: 8px;
-  width: 70%;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-#chatSend {
-  padding: 8px 15px;
-  background: #ff6600;
-  border: none;
-  color: white;
-  font-weight: bold;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#chatSend:hover {
-  background: #e65500;
-}
-
-footer {
-  text-align: center;
-  margin-top: 40px;
-  font-size: 0.9rem;
-  color: #666;
-}
-// Word of the Day (Random from list)
-const words = [
-  { word: "Adventure", meaning: "An exciting or unusual experience." },
-  { word: "Brave", meaning: "Showing courage." },
-  { word: "Curious", meaning: "Eager to learn or know." },
-  { word: "Friendly", meaning: "Kind and pleasant." },
-  { word: "Magic", meaning: "The power to make impossible things happen." },
-];
-
-function showWordOfDay() {
-  const idx = Math.floor(Math.random() * words.length);
-  const wordEl = document.getElementById("wordOfDay");
-  const w = words[idx];
-  wordEl.innerHTML = `<strong>${w.word}</strong>: ${w.meaning}`;
-}
-showWordOfDay();
-
-// Simple Matching Game
-const matchGameBtn = document.getElementById("matchGameBtn");
-const matchGameDiv = document.getElementById("matchGame");
-
-const pairs = [
-  { name: "Cat", img: "coloring/cat.png" },
-  { name: "Elephant", img: "coloring/elephant.png" },
-  { name: "Flower", img: "coloring/flower.png" },
-];
-
-function startMatchGame() {
-  matchGameDiv.innerHTML = "";
-  pairs.forEach((pair, i) => {
-    const btn = document.createElement("button");
-    btn.textContent = pair.name;
-    btn.style.margin = "5px";
-    btn.onclick = () => alert(`You matched: ${pair.name}`);
-    matchGameDiv.appendChild(btn);
-  });
-}
-
-matchGameBtn.addEventListener("click", startMatchGame);
-
-// Simple Chatbot (random replies)
-const chatOutput = document.getElementById("chatOutput");
-const chatInput = document.getElementById("chatInput");
-const chatSend = document.getElementById("chatSend");
-
-const replies = [
-  "Hello! How can I help you today?",
-  "Did you know lions are called the king of the jungle?",
-  "Keep learning and have fun!",
