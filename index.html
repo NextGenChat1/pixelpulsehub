@@ -1,29 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Zyntra Kids Library</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to bottom, #ffe8ec, #c6f6ff);
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #ffb6c1;
+      border-radius: 10px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    .logo {
+      font-size: 30px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #ff69b4;
+      padding: 10px 20px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .btn-container {
+      margin: 30px auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 10px;
+      background-color: #87ceeb;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #5ab0d3;
+    }
+
+    #output {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 14px;
+      color: #777;
+    }
+  </style>
 </head>
 <body>
-  <h1>Zyntra Kids Library</h1>
+  <header>
+    <div class="logo">🌈 Zyntra Kids Library</div>
+    <p>Read. Learn. Play. Every Day! 📚✨</p>
+  </header>
 
-  <button onclick="showMessage('story')">Read Story</button>
-  <button onclick="showMessage('game')">Play Game</button>
-  <button onclick="showMessage('chat')">Chat with Bot</button>
+  <div class="btn-container">
+    <button onclick="showStory('animal')">🦁 Animal Story</button>
+    <button onclick="showStory('moral')">🌟 Moral Story</button>
+    <button onclick="showStory('fantasy')">🧚 Fantasy Story</button>
+    <button onclick="playGame()">🎮 Play Game</button>
+    <button onclick="startChat()">🤖 Ask Zyntra Bot</button>
+    <button onclick="wordOfDay()">🧠 Word of the Day</button>
+  </div>
 
-  <div id="output" style="margin-top:20px;font-size:18px;"></div>
+  <div id="output">👋 Click a button above to begin your adventure!</div>
+
+  <footer>Made with ❤️ by Zyntra</footer>
 
   <script>
-    function showMessage(type) {
-      let msg = "";
-      if (type === 'story') {
-        msg = "📖 Once upon a time, a small bird wanted to fly across the sea...";
-      } else if (type === 'game') {
-        msg = "🎮 Let's play: Match the animals! 🐶 🐱 🐰";
-      } else if (type === 'chat') {
-        msg = "🤖 Hello! I'm Zyntra Bot. Let's learn something fun!";
+    function showStory(type) {
+      let story = "";
+      if (type === 'animal') {
+        story = "🐘 Once upon a time, an elephant and a dog became best friends in the jungle...";
+      } else if (type === 'moral') {
+        story = "🌟 A lazy boy learned the value of time when he lost a golden chance...";
+      } else if (type === 'fantasy') {
+        story = "🧚 A fairy gave a poor child wings to visit the sky kingdom for one night...";
       }
-      document.getElementById('output').innerText = msg;
+      document.getElementById('output').innerText = story;
+    }
+
+    function playGame() {
+      document.getElementById('output').innerText = "🎮 Let's play! Match animals with their sounds: 🐶 Woof, 🐱 Meow, 🐮 Moo...";
+    }
+
+    function startChat() {
+      const botReply = "🤖 Hello, I'm Zyntra Bot! Want to learn a fun fact? The sun is actually white, not yellow!";
+      document.getElementById('output').innerText = botReply;
+    }
+
+    function wordOfDay() {
+      const word = "💡 Curious – wanting to know more. Example: Zyntra Kids are always curious learners!";
+      document.getElementById('output').innerText = word;
     }
   </script>
 </body>
