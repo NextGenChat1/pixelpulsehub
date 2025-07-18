@@ -1,230 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Zyntra Kids Library</title>
-  <style>
-    body {
-      font-family: "Comic Sans MS", cursive, sans-serif;
-      background: #fffaf2;
-      color: #333;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #ffcc70;
-      padding: 20px;
-      text-align: center;
-      border-radius: 0 0 20px 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    header h1 {
-      color: #3b3b98;
-      font-size: 2.8rem;
-    }
-    nav {
-      margin-top: 10px;
-    }
-    nav a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-      font-size: 1rem;
-    }
-    nav a:hover {
-      color: #e67e22;
-    }
-    main {
-      max-width: 900px;
-      margin: 20px auto;
-      padding: 15px;
-    }
-    section {
-      background: #ffffff;
-      margin-bottom: 30px;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    h2 {
-      color: #e67e22;
-      margin-bottom: 12px;
-      border-bottom: 2px dashed #e67e22;
-      padding-bottom: 5px;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    .coloring-gallery img {
-      width: 130px;
-      border: 2px solid #ffcc70;
-      border-radius: 10px;
-      margin: 10px 10px 10px 0;
-      transition: transform 0.3s ease;
-      cursor: pointer;
-    }
-    .coloring-gallery img:hover {
-      transform: scale(1.1);
-    }
-    .game-container, .chat-output {
-      border: 2px solid #ffcc70;
-      background: #fffbe6;
-      border-radius: 10px;
-      padding: 15px;
-      margin-top: 10px;
-    }
-    #chatInput {
-      width: 70%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-      margin-top: 10px;
-    }
-    #chatSend {
-      padding: 10px 18px;
-      background-color: #f39c12;
-      border: none;
-      color: #fff;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 1rem;
-      color: #888;
-      padding-bottom: 20px;
-    }
-  </style>
 </head>
 <body>
-  <header>
-    <h1>Zyntra Kids Library</h1>
-    <nav>
-      <a href="#stories">Stories</a>
-      <a href="#poems">Poems</a>
-      <a href="#coloring">Coloring</a>
-      <a href="#learning">Learning</a>
-      <a href="#games">Games</a>
-      <a href="#chatbot">Chat</a>
-      <a href="#word">Word</a>
-    </nav>
-  </header>
+  <h1>Zyntra Kids Library</h1>
 
-  <main>
-    <section id="stories">
-      <h2>Short Stories</h2>
-      <ul>
-        <li><strong>The Brave Lion:</strong> A little lion discovers courage while helping his jungle friends.</li>
-        <li><strong>The Wise Owl:</strong> An owl teaches young animals how to listen and learn wisely.</li>
-        <li><strong>The Magic Tree:</strong> A glowing tree grants wishes to kind-hearted children.</li>
-      </ul>
-    </section>
+  <button onclick="showMessage('story')">Read Story</button>
+  <button onclick="showMessage('game')">Play Game</button>
+  <button onclick="showMessage('chat')">Chat with Bot</button>
 
-    <section id="poems">
-      <h2>Poems & Rhymes</h2>
-      <ul>
-        <li><strong>Stars in the Sky:</strong><br>Twinkle bright, shining high,<br>You light the magic in the sky.</li>
-        <li><strong>Colors of Joy:</strong><br>Red and yellow, green and blue,<br>Rainbow colors just for you!</li>
-      </ul>
-    </section>
-
-    <section id="coloring">
-      <h2>Coloring Fun</h2>
-      <div class="coloring-gallery">
-        <img src="https://i.imgur.com/3rBkflI.png" alt="Cat" />
-        <img src="https://i.imgur.com/3Q4duMm.png" alt="Elephant" />
-        <img src="https://i.imgur.com/Co64qhD.png" alt="Flower" />
-      </div>
-      <p><em>Right-click and save images to print and color!</em></p>
-    </section>
-
-    <section id="learning">
-      <h2>Learning Zone</h2>
-      <p><strong>Alphabet:</strong> A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</p>
-      <p><strong>Numbers:</strong> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10</p>
-      <p><strong>Shapes:</strong> Circle, Square, Triangle, Star, Rectangle</p>
-    </section>
-
-    <section id="games">
-      <h2>Mini Game</h2>
-      <button id="matchGameBtn">Start Matching Game</button>
-      <div id="matchGame" class="game-container">
-        <p>Click the button to begin!</p>
-      </div>
-    </section>
-
-    <section id="chatbot">
-      <h2>Talk to Zyntra Bot</h2>
-      <div id="chatOutput" class="chat-output" style="min-height:120px;"></div>
-      <input type="text" id="chatInput" placeholder="Say something..." />
-      <button id="chatSend">Send</button>
-    </section>
-
-    <section id="word">
-      <h2>Word of the Day</h2>
-      <p id="wordOfDay" style="font-size:1.2rem;font-weight:bold;"></p>
-    </section>
-  </main>
-
-  <footer>
-    © 2025 Zyntra. All rights reserved.
-  </footer>
+  <div id="output" style="margin-top:20px;font-size:18px;"></div>
 
   <script>
-    // Word of the Day
-    const words = [
-      { word: "Adventure", meaning: "An exciting experience." },
-      { word: "Imagination", meaning: "The power to create ideas." },
-      { word: "Friendly", meaning: "Kind and nice to others." },
-      { word: "Curious", meaning: "Wanting to learn more." },
-      { word: "Joyful", meaning: "Full of happiness." }
-    ];
-    const word = words[Math.floor(Math.random() * words.length)];
-    document.getElementById("wordOfDay").textContent = word.word + ": " + word.meaning;
-
-    // Matching Game
-    const matchGameBtn = document.getElementById("matchGameBtn");
-    const matchGameDiv = document.getElementById("matchGame");
-    const pairs = ["🐱 Cat", "🐘 Elephant", "🌸 Flower"];
-    matchGameBtn.onclick = () => {
-      matchGameDiv.innerHTML = "";
-      pairs.forEach((item) => {
-        const btn = document.createElement("button");
-        btn.textContent = item;
-        btn.style = "margin:10px;padding:10px 20px;border-radius:8px;border:1px solid #ccc;background:#fef4e8;";
-        btn.onclick = () => alert("You clicked: " + item);
-        matchGameDiv.appendChild(btn);
-      });
-    };
-
-    // Chatbot
-    const replies = [
-      "Hi there! I'm Zyntra Bot 🐥",
-      "Learning is fun! 📚",
-      "Do you like stories?",
-      "Always be kind and smile!",
-      "Let's play and learn together!"
-    ];
-    const chatInput = document.getElementById("chatInput");
-    const chatOutput = document.getElementById("chatOutput");
-    document.getElementById("chatSend").onclick = () => {
-      const userText = chatInput.value.trim();
-      if (userText) {
-        const userMsg = `<p><strong>You:</strong> ${userText}</p>`;
-        const botMsg = `<p><strong>Zyntra Bot:</strong> ${replies[Math.floor(Math.random()*replies.length)]}</p>`;
-        chatOutput.innerHTML += userMsg + botMsg;
-        chatInput.value = "";
-        chatOutput.scrollTop = chatOutput.scrollHeight;
+    function showMessage(type) {
+      let msg = "";
+      if (type === 'story') {
+        msg = "📖 Once upon a time, a small bird wanted to fly across the sea...";
+      } else if (type === 'game') {
+        msg = "🎮 Let's play: Match the animals! 🐶 🐱 🐰";
+      } else if (type === 'chat') {
+        msg = "🤖 Hello! I'm Zyntra Bot. Let's learn something fun!";
       }
-    };
+      document.getElementById('output').innerText = msg;
+    }
   </script>
 </body>
 </html>
