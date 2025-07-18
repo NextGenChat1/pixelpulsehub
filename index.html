@@ -9,7 +9,7 @@
     font-family: Georgia, serif;
     background: #fff8e7;
     margin: 0; padding: 20px;
-    color: #222;
+    color: #333;
     line-height: 1.7;
   }
   header {
@@ -24,12 +24,13 @@
     margin-bottom: 25px;
     text-align: center;
   }
-  .filters select {
+  select {
     font-size: 1.2em;
     padding: 8px 16px;
     margin: 0 10px;
     border-radius: 6px;
     border: 1px solid #c49b66;
+    cursor: pointer;
   }
   .books {
     display: flex;
@@ -41,14 +42,14 @@
     background: #fdf6e3;
     border-radius: 14px;
     box-shadow: 0 5px 12px rgba(0,0,0,0.1);
-    width: 320px;
+    width: 300px;
     cursor: pointer;
     transition: transform 0.25s ease;
     display: flex;
     flex-direction: column;
   }
   .book-card:hover {
-    transform: scale(1.06);
+    transform: scale(1.05);
   }
   .book-cover {
     width: 100%;
@@ -67,40 +68,41 @@
     margin-bottom: 6px;
     color: #6d4c41;
   }
-  .book-meta {
+  .book-category {
     font-size: 1em;
     color: #a1887f;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
   }
+  /* Popup */
   .story-popup {
     position: fixed;
     top:0; left:0; right:0; bottom:0;
-    background: rgba(0,0,0,0.65);
+    background: rgba(0,0,0,0.7);
     display: none;
     justify-content: center;
     align-items: center;
     padding: 25px;
     overflow-y: auto;
-    z-index: 2000;
+    z-index: 9999;
   }
   .story-content {
     background: #fff8e7;
     border-radius: 18px;
-    max-width: 750px;
-    max-height: 90vh;
+    max-width: 700px;
+    max-height: 85vh;
     padding: 30px 35px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     overflow-y: auto;
     position: relative;
   }
   .story-content h2 {
     margin-top: 0;
     color: #5d4037;
-    font-size: 2.2em;
+    font-size: 2em;
   }
   .story-content p {
-    line-height: 1.85;
-    margin-bottom: 18px;
+    line-height: 1.8;
+    margin-bottom: 15px;
     font-size: 1.15em;
   }
   .close-btn {
@@ -130,7 +132,7 @@
     }
     .story-content {
       max-width: 90vw;
-      padding: 25px 20px;
+      padding: 20px 20px;
     }
   }
 </style>
@@ -140,24 +142,23 @@
 <header>
   <h1>Zyntra Kids Library</h1>
   <div class="filters">
-    <label>
-      Category: 
-      <select id="categoryFilter">
-        <option value="all">All</option>
-        <option value="adventure">Adventure</option>
-        <option value="animal">Animal</option>
-        <option value="moral">Moral</option>
-      </select>
-    </label>
+    <label for="categoryFilter">Filter by Category:</label>
+    <select id="categoryFilter">
+      <option value="all">All</option>
+      <option value="adventure">Adventure</option>
+      <option value="animal">Animal</option>
+      <option value="moral">Moral</option>
+      <option value="fantasy">Fantasy</option>
+    </select>
   </div>
 </header>
 
 <section class="books" id="booksContainer">
-  <!-- Book cards inserted here dynamically -->
+  <!-- Books appear here -->
 </section>
 
 <!-- Story Popup -->
-<div class="story-popup" id="storyPopup" tabindex="0" role="dialog" aria-modal="true" aria-labelledby="storyTitle">
+<div class="story-popup" id="storyPopup" role="dialog" aria-modal="true" aria-labelledby="storyTitle">
   <div class="story-content">
     <button class="close-btn" id="closeStoryBtn" aria-label="Close Story Popup">X</button>
     <h2 id="storyTitle"></h2>
@@ -166,71 +167,129 @@
 </div>
 
 <script>
+  // Stories data
   const books = [
-    // Adventure
     {
       id: 1,
       category: "adventure",
       title: "The Secret of Moon Hill",
       cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Old_book_bindings_in_a_library_2018.jpg/320px-Old_book_bindings_in_a_library_2018.jpg",
-      ageGroup: "7-12",
-      longStory: `
-On top of Moon Hill, a quiet girl named Tara discovered a silver key buried in the ground. It was old and cold, shining under the afternoon sun. She didn’t know it would unlock a door to a hidden world filled with flying turtles, whispering trees, and a lost city.
-
-Tara took a deep breath and turned the key in the old door. Suddenly, the ground trembled, and the world around her changed. She found herself in a magical land where the sky was always painted in beautiful colors, and animals talked like old friends.
-
-The city was hidden behind a waterfall that shimmered like diamonds in the sunlight. Inside, the streets were lined with glowing plants and glowing stones that lit up the night.
-
-Tara met a wise old owl who told her that she was chosen to protect the secret of Moon Hill from those who wished to misuse its magic.
-
-She agreed to help and learned many secrets about courage, friendship, and the power of believing in yourself.
-
-In the following days, Tara explored the magical city, learning new things every day. She made friends with talking rabbits, dancing fireflies, and a shy dragon who was afraid of heights.
-
-Each challenge Tara faced taught her about bravery, kindness, and hope. When dark clouds threatened the city, she helped gather all creatures to protect their home.
-
-Finally, when her adventure ended, Tara returned home but kept the silver key safe, knowing one day she might need to return to that magical world again.`,
-      shortStory: `
-Tara found a silver key on Moon Hill.  
-She used it to open a magical door.  
-Inside was a world of talking animals and glowing plants.  
-Tara became the protector of the secret city.  
-She learned the importance of courage and friendship.  
-In the end, she returned home but kept the key safe.`
+      story: `
+<p>On top of Moon Hill, Tara found a silver key buried under the ground. The key shone brightly under the afternoon sun.</p>
+<p>She turned the key in a hidden door and suddenly found herself in a magical city with glowing plants and talking animals.</p>
+<p>Tara met a wise owl who told her she must protect the city’s secret.</p>
+<p>She faced challenges and made friends like dancing fireflies and a shy dragon.</p>
+<p>With courage and kindness, Tara saved the city from dark clouds and promised to keep the secret safe.</p>
+<p>After her adventure, she returned home, keeping the silver key safe for when she might need it again.</p>
+`
     },
-    // Animal
     {
       id: 2,
       category: "animal",
       title: "Luna and the Lost Elephant",
       cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Elephant_and_baby_%2851695771431%29.jpg/320px-Elephant_and_baby_%2851695771431%29.jpg",
-      ageGroup: "5-10",
-      longStory: `
-Luna was a young girl who loved animals more than anything else in the world. One day, while walking in the forest near her village, she heard a soft cry. She followed the sound and found a small elephant calf, lost and frightened.
-
-The calf had wandered away from its herd and was all alone. Luna gently calmed the elephant and promised to help it find its family.
-
-Together, they traveled through the forest, facing many challenges, but Luna’s kindness and bravery helped them. She met other animals who guided her on the path to the elephant's home.
-
-They crossed rivers, climbed hills, and walked under stars, always helping and protecting each other. Luna never gave up, even when the journey was tough.
-
-At last, they found the herd, and the baby elephant joyfully reunited with its family. Luna felt happy knowing she helped a friend in need and learned how important it is to care for all creatures.
-
-The villagers celebrated Luna’s bravery, and she became a hero who reminded everyone that kindness is the greatest strength.`,
-      shortStory: `
-Luna found a lost baby elephant.  
-She helped it find its family.  
-They traveled through the forest together.  
-Luna was kind and brave.  
-The baby elephant was happy to be home.  
-Luna learned the value of caring for animals.`
+      story: `
+<p>Luna loved animals very much. One day, she found a lost baby elephant in the forest.</p>
+<p>The baby elephant was scared and alone. Luna promised to help it find its family.</p>
+<p>They traveled together through rivers and hills, facing many dangers.</p>
+<p>With kindness and bravery, Luna helped the elephant safely return to its herd.</p>
+<p>The villagers praised Luna and learned how important it is to care for all creatures.</p>
+`
     },
-    // Moral
     {
       id: 3,
       category: "moral",
       title: "The Honest Woodcutter",
       cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Woodcutter_story_illustration.jpg/320px-Woodcutter_story_illustration.jpg",
-      ageGroup: "6-11",
-      longStory: `
-Once upon a time, a poor woodcutter was cutting trees near a river. Suddenly, his axe slipped from his hand and fell into
+      story: `
+<p>A poor woodcutter lost his axe in the river. He was sad and worried because he needed it to earn money.</p>
+<p>A river fairy appeared and offered him a golden axe and a silver axe to replace his lost one.</p>
+<p>The woodcutter honestly said the golden and silver axes were not his and only wanted his own iron axe.</p>
+<p>Impressed by his honesty, the fairy gave him all three axes as a reward.</p>
+<p>The woodcutter’s honesty taught everyone the importance of truthfulness.</p>
+`
+    },
+    {
+      id: 4,
+      category: "fantasy",
+      title: "Magic Shoes",
+      cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Red_shoes.jpg/320px-Red_shoes.jpg",
+      story: `
+<p>A girl found a pair of magic shoes. When she wore them, she could fly high in the sky.</p>
+<p>She used her power to help animals and children in need.</p>
+<p>The magic shoes made her a kind and brave hero in her town.</p>
+<p>She learned that true magic comes from helping others.</p>
+`
+    }
+  ];
+
+  const booksContainer = document.getElementById("booksContainer");
+  const categoryFilter = document.getElementById("categoryFilter");
+  const storyPopup = document.getElementById("storyPopup");
+  const storyTitle = document.getElementById("storyTitle");
+  const storyText = document.getElementById("storyText");
+  const closeStoryBtn = document.getElementById("closeStoryBtn");
+
+  function displayBooks(filter) {
+    booksContainer.innerHTML = "";
+    let filteredBooks = filter === "all" ? books : books.filter(b => b.category === filter);
+
+    if (filteredBooks.length === 0) {
+      booksContainer.innerHTML = `<p style="font-size:1.2em; text-align:center; color:#a1887f;">No stories found in this category.</p>`;
+      return;
+    }
+
+    filteredBooks.forEach(book => {
+      const bookCard = document.createElement("div");
+      bookCard.className = "book-card";
+      bookCard.tabIndex = 0;
+      bookCard.setAttribute("role", "button");
+      bookCard.setAttribute("aria-pressed", "false");
+      bookCard.innerHTML = `
+        <img src="${book.cover}" alt="Cover of ${book.title}" class="book-cover" />
+        <div class="book-info">
+          <div class="book-title">${book.title}</div>
+          <div class="book-category">${book.category.charAt(0).toUpperCase() + book.category.slice(1)}</div>
+        </div>
+      `;
+      bookCard.addEventListener("click", () => openStory(book));
+      bookCard.addEventListener("keypress", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openStory(book);
+        }
+      });
+      booksContainer.appendChild(bookCard);
+    });
+  }
+
+  function openStory(book) {
+    storyTitle.textContent = book.title;
+    storyText.innerHTML = book.story;
+    storyPopup.style.display = "flex";
+    storyPopup.focus();
+  }
+
+  function closeStory() {
+    storyPopup.style.display = "none";
+    storyTitle.textContent = "";
+    storyText.innerHTML = "";
+  }
+
+  categoryFilter.addEventListener("change", () => {
+    displayBooks(categoryFilter.value);
+  });
+
+  closeStoryBtn.addEventListener("click", closeStory);
+  storyPopup.addEventListener("click", e => {
+    if (e.target === storyPopup) {
+      closeStory();
+    }
+  });
+
+  // Initial load
+  displayBooks("all");
+</script>
+
+</body>
+</html>
