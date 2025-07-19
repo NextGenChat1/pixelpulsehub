@@ -1,158 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ZyntraTube NeonVerse - Free & Stylish</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Roboto', sans-serif;
-      background-color: #0f0f0f;
-      color: #fff;
-    }
-    header {
-      background: linear-gradient(90deg, #ec4899, #7c3aed);
-      padding: 1rem;
-      text-align: center;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .container {
-      padding: 1.5rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .category-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #ec4899;
-      border-bottom: 2px solid #7c3aed;
-      padding-bottom: 0.5rem;
-      margin: 2rem 0 1.5rem 0;
-    }
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-    .video-card {
-      background-color: #212121;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: transform 0.3s ease;
-    }
-    .video-card:hover {
-      transform: translateY(-5px);
-    }
-    .thumbnail {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background-color: #333;
-    }
-    .thumbnail iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    .video-info {
-      padding: 1rem;
-    }
-    .video-title {
-      font-size: 1.1rem;
-      font-weight: 500;
-      margin: 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZyntraTube NeonVerse</title>
+    <style>
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-blue: #00ffff;
+            --dark-bg: #121212;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--dark-bg);
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        nav {
+            background-color: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        nav button {
+            background-color: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        nav button:hover, nav button.active {
+            background-color: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .video-card {
+            background-color: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .video-card:hover {
+            transform: scale(1.05);
+        }
+
+        .video-card video {
+            width: 100%;
+            height: auto;
+        }
+
+        .video-info {
+            padding: 1rem;
+        }
+
+        .video-info h3 {
+            margin: 0.5rem 0;
+        }
+
+        .upload-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--neon-pink);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--neon-pink);
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <h1>🌟 ZyntraTube NeonVerse 🌟</h1>
+        <p>Your daily dose of curated videos</p>
+    </header>
+    <nav>
+        <button class="active" data-cat="all">All</button>
+        <button data-cat="kids">Kids Zone 👶</button>
+        <button data-cat="trending">Trending 🔥</button>
+        <button data-cat="food">Food 🍔</button>
+        <button data-cat="tips">Tips 💡</button>
+        <button data-cat="recipe">Recipe 🍳</button>
+    </nav>
+    <div class="container" id="videoContainer">
+        <!-- Video cards will be inserted here by JavaScript -->
+    </div>
+    <button class="upload-btn">+</button>
 
-  <header>ZyntraTube NeonVerse</header>
+    <script>
+        const dailyVideos = [
+            {
+                title: "Daily Video 1",
+                url: "https://cdn.pixabay.com/vimeo/753093004/elephant-100000.mp4?width=640&hash=5f7a1a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a",
+                thumbnail: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+                category: "trending"
+            },
+            {
+                title: "Daily Video 2",
+                url: "https://cdn.pixabay.com/vimeo/753093004/elephant-100000.mp4?width=640&hash=5f7a1a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a",
+                thumbnail: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+                category: "kids"
+            },
+            {
+                title: "Daily Video 3",
+                url: "https://cdn.pixabay.com/vimeo/753093004/elephant-100000.mp4?width=640&hash=5f7a1a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a",
+                thumbnail: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+                category: "food"
+            },
+            {
+                title: "Daily Video 4",
+                url: "https://cdn.pixabay.com/vimeo/753093004/elephant-100000.mp4?width=640&hash=5f7a1a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a",
+                thumbnail: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+                category: "tips"
+            },
+            {
+                title: "Daily Video 5",
+                url: "https://cdn.pixabay.com/vimeo/753093004/elephant-100000.mp4?width=640&hash=5f7a1a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a",
+                thumbnail: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+                category: "recipe"
+            }
+        ];
 
-  <div class="container" id="main-container">
-    <!-- Categories aur Videos yahan JavaScript se add honge -->
-  </div>
+        function displayVideos(videos) {
+            const container = document.getElementById('videoContainer');
+            container.innerHTML = '';
+            videos.forEach(video => {
+                const card = document.createElement('div');
+                card.className = 'video-card';
+                card.innerHTML = `
+                    <video controls poster="${video.thumbnail}">
+                        <source src="${video.url}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-info">
+                        <h3>${video.title}</h3>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
 
-  <script>
-    // --- YAHAN APNI VIDEOS AUR CATEGORIES ADD KAREIN ---
-    const categories = [
-      {
-        name: "🔥 Trending Now",
-        emoji: "🔥",
-        videos: [
-          { title: "Viral Dance Challenge", youtubeVideoId: "dQw4w9WgXcQ" },
-          { title: "Top 10 Gaming Moments", youtubeVideoId: "9bZkp7q19f0" },
-        ]
-      },
-      {
-        name: "🎵 BeatPulse Music",
-        emoji: "🎵",
-        videos: [
-          { title: "Lo-Fi Beats to Relax/Study", youtubeVideoId: "5qap5aO4i9A" },
-          { title: "Pop Hits 2024", youtubeVideoId: "3AtDnEC4zak" },
-        ]
-      },
-      {
-        name: "🍔 TastyBites Food",
-        emoji: "🍔",
-        videos: [
-          { title: "5-Minute Chocolate Mug Cake", youtubeVideoId: "J9y1v0i_L2A" },
-          { title: "Spicy Korean Noodles Challenge", youtubeVideoId: "weaoa5w_uI4" },
-        ]
-      },
-      {
-        name: "💡 LifeHacks & Tips",
-        emoji: "💡",
-        videos: [
-          { title: "10 Organization Hacks You Need", youtubeVideoId: "aG-K8g2Uo-s" },
-          { title: "How to Study Smart, Not Hard", youtubeVideoId: "p60rN9JEapg" },
-        ]
-      }
-      // ... aap yahan aur bhi categories add kar sakti hain! ...
-    ];
+        function filterVideos(category) {
+            if (category === 'all') {
+                displayVideos(dailyVideos);
+            } else {
+                const filteredVideos = dailyVideos.filter(video => video.category === category);
+                displayVideos(filteredVideos);
+            }
+        }
 
-    // --- WEBSITE PE CONTENT DIKHANE WALA SCRIPT (isko change na karein) ---
-    document.addEventListener("DOMContentLoaded", function() {
-      const mainContainer = document.getElementById("main-container");
-
-      categories.forEach(category => {
-        // Category Title
-        const categoryTitle = document.createElement("h2");
-        categoryTitle.className = "category-title";
-        categoryTitle.innerText = `${category.emoji} ${category.name}`;
-        mainContainer.appendChild(categoryTitle);
-
-        // Video Grid for this category
-        const videoGrid = document.createElement("div");
-        videoGrid.className = "video-grid";
-        
-        category.videos.forEach(video => {
-          const videoCard = document.createElement("div");
-          videoCard.className = "video-card";
-          
-          const embedUrl = `https://www.youtube.com/embed/${video.youtubeVideoId}`;
-          
-          videoCard.innerHTML = `
-            <div class="thumbnail">
-              <iframe src="${embedUrl}" allowfullscreen></iframe>
-            </div>
-            <div class="video-info">
-              <h3 class="video-title">${video.title}</h3>
-            </div>
-          `;
-          videoGrid.appendChild(videoCard);
+        document.querySelectorAll('nav button').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                filterVideos(button.getAttribute('data-cat'));
+            });
         });
 
-        mainContainer.appendChild(videoGrid);
-      });
-    });
-  </script>
+        // Set today's video as the first one
+        const today = new Date();
+        const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+        const videoOfTheDayIndex = dayOfYear % dailyVideos.length;
+        const videoOfTheDay = dailyVideos[videoOfTheDayIndex];
+        console.log(`Video of the Day: ${videoOfTheDay.title}`);
 
+        // Display all videos by default
+        displayVideos(dailyVideos);
+    </script>
 </body>
 </html>
