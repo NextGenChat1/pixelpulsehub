@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ZyntraTube NeonVerse - 100% Free</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <title>ZyntraTube NeonVerse - Free & Stylish</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -16,24 +16,40 @@
       background: linear-gradient(90deg, #ec4899, #7c3aed);
       padding: 1rem;
       text-align: center;
+      font-family: 'Orbitron', sans-serif;
       font-size: 1.5rem;
       font-weight: 700;
       position: sticky;
       top: 0;
+      z-index: 100;
+    }
+    .container {
+      padding: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .category-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ec4899;
+      border-bottom: 2px solid #7c3aed;
+      padding-bottom: 0.5rem;
+      margin: 2rem 0 1.5rem 0;
     }
     .video-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 1.5rem;
-      padding: 1.5rem;
-      max-width: 1200px;
-      margin: 0 auto;
     }
     .video-card {
       background-color: #212121;
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+    .video-card:hover {
+      transform: translateY(-5px);
     }
     .thumbnail {
       width: 100%;
@@ -59,37 +75,81 @@
 
   <header>ZyntraTube NeonVerse</header>
 
-  <div class="video-grid" id="video-grid">
-    <!-- Videos will be added here by JavaScript -->
+  <div class="container" id="main-container">
+    <!-- Categories aur Videos yahan JavaScript se add honge -->
   </div>
 
   <script>
-    // --- YAHAN APNI VIDEOS ADD KAREIN ---
-    const videos = [
-      { title: "Spectacular Nature Views 🌳", youtubeVideoId: "CxwJ7aKOfi0" },
-      { title: "5-Minute Spicy Noodles Recipe 🍜", youtubeVideoId: "dQw4w9WgXcQ" },
-      { title: "K-Pop Dance Compilation 💃", youtubeVideoId: "9bZkp7q19f0" },
-      { title: "Learn to Code in 10 Minutes! 💻", youtubeVideoId: "aG-K8g2Uo-s" },
-      // ... aap yahan aur bhi videos add kar sakti hain! ...
+    // --- YAHAN APNI VIDEOS AUR CATEGORIES ADD KAREIN ---
+    const categories = [
+      {
+        name: "🔥 Trending Now",
+        emoji: "🔥",
+        videos: [
+          { title: "Viral Dance Challenge", youtubeVideoId: "dQw4w9WgXcQ" },
+          { title: "Top 10 Gaming Moments", youtubeVideoId: "9bZkp7q19f0" },
+        ]
+      },
+      {
+        name: "🎵 BeatPulse Music",
+        emoji: "🎵",
+        videos: [
+          { title: "Lo-Fi Beats to Relax/Study", youtubeVideoId: "5qap5aO4i9A" },
+          { title: "Pop Hits 2024", youtubeVideoId: "3AtDnEC4zak" },
+        ]
+      },
+      {
+        name: "🍔 TastyBites Food",
+        emoji: "🍔",
+        videos: [
+          { title: "5-Minute Chocolate Mug Cake", youtubeVideoId: "J9y1v0i_L2A" },
+          { title: "Spicy Korean Noodles Challenge", youtubeVideoId: "weaoa5w_uI4" },
+        ]
+      },
+      {
+        name: "💡 LifeHacks & Tips",
+        emoji: "💡",
+        videos: [
+          { title: "10 Organization Hacks You Need", youtubeVideoId: "aG-K8g2Uo-s" },
+          { title: "How to Study Smart, Not Hard", youtubeVideoId: "p60rN9JEapg" },
+        ]
+      }
+      // ... aap yahan aur bhi categories add kar sakti hain! ...
     ];
 
+    // --- WEBSITE PE CONTENT DIKHANE WALA SCRIPT (isko change na karein) ---
     document.addEventListener("DOMContentLoaded", function() {
-      const videoGrid = document.getElementById("video-grid");
-      videos.forEach(video => {
-        const videoCard = document.createElement("div");
-        videoCard.className = "video-card";
+      const mainContainer = document.getElementById("main-container");
+
+      categories.forEach(category => {
+        // Category Title
+        const categoryTitle = document.createElement("h2");
+        categoryTitle.className = "category-title";
+        categoryTitle.innerText = `${category.emoji} ${category.name}`;
+        mainContainer.appendChild(categoryTitle);
+
+        // Video Grid for this category
+        const videoGrid = document.createElement("div");
+        videoGrid.className = "video-grid";
         
-        const embedUrl = `https://www.youtube.com/embed/${video.youtubeVideoId}`;
-        
-        videoCard.innerHTML = `
-          <div class="thumbnail">
-            <iframe src="${embedUrl}" allowfullscreen></iframe>
-          </div>
-          <div class="video-info">
-            <h3 class="video-title">${video.title}</h3>
-          </div>
-        `;
-        videoGrid.appendChild(videoCard);
+        category.videos.forEach(video => {
+          const videoCard = document.createElement("div");
+          videoCard.className = "video-card";
+          
+          const embedUrl = `https://www.youtube.com/embed/${video.youtubeVideoId}`;
+          
+          videoCard.innerHTML = `
+            <div class="thumbnail">
+              <iframe src="${embedUrl}" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+              <h3 class="video-title">${video.title}</h3>
+            </div>
+          `;
+          videoGrid.appendChild(videoCard);
+        });
+
+        mainContainer.appendChild(videoGrid);
       });
     });
   </script>
