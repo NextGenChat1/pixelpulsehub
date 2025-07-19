@@ -1,295 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Zyntra Kids Library</title>
-<style>
-  body {
-    font-family: Georgia, serif;
-    background: #fff8e7;
-    margin: 0; padding: 20px;
-    color: #333;
-    line-height: 1.7;
-  }
-  header {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  h1 {
-    color: #5d4037;
-    font-size: 3em;
-  }
-  .filters {
-    margin-bottom: 25px;
-    text-align: center;
-  }
-  select {
-    font-size: 1.2em;
-    padding: 8px 16px;
-    margin: 0 10px;
-    border-radius: 6px;
-    border: 1px solid #c49b66;
-    cursor: pointer;
-  }
-  .books {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 18px;
-    justify-content: center;
-  }
-  .book-card {
-    background: #fdf6e3;
-    border-radius: 14px;
-    box-shadow: 0 5px 12px rgba(0,0,0,0.1);
-    width: 300px;
-    cursor: pointer;
-    transition: transform 0.25s ease;
-    display: flex;
-    flex-direction: column;
-  }
-  .book-card:hover {
-    transform: scale(1.05);
-  }
-  .book-cover {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-top-left-radius: 14px;
-    border-top-right-radius: 14px;
-  }
-  .book-info {
-    padding: 18px;
-    flex-grow: 1;
-  }
-  .book-title {
-    font-size: 1.5em;
-    font-weight: 700;
-    margin-bottom: 6px;
-    color: #6d4c41;
-  }
-  .book-category {
-    font-size: 1em;
-    color: #a1887f;
-    margin-bottom: 12px;
-  }
-  /* Popup */
-  .story-popup {
-    position: fixed;
-    top:0; left:0; right:0; bottom:0;
-    background: rgba(0,0,0,0.7);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    padding: 25px;
-    overflow-y: auto;
-    z-index: 9999;
-  }
-  .story-content {
-    background: #fff8e7;
-    border-radius: 18px;
-    max-width: 700px;
-    max-height: 85vh;
-    padding: 30px 35px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    overflow-y: auto;
-    position: relative;
-  }
-  .story-content h2 {
-    margin-top: 0;
-    color: #5d4037;
-    font-size: 2em;
-  }
-  .story-content p {
-    line-height: 1.8;
-    margin-bottom: 15px;
-    font-size: 1.15em;
-  }
-  .close-btn {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    background: #a0522d;
-    border: none;
-    color: white;
-    font-weight: bold;
-    font-size: 1.3em;
-    padding: 6px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  .close-btn:hover {
-    background: #7b3f18;
-  }
-  @media(max-width: 640px) {
-    .books {
-      flex-direction: column;
-      align-items: center;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ZyntraTube NeonVerse - 100% Free</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #0f0f0f;
+      color: #fff;
     }
-    .book-card {
-      width: 95%;
+    header {
+      background: linear-gradient(90deg, #ec4899, #7c3aed);
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      position: sticky;
+      top: 0;
     }
-    .story-content {
-      max-width: 90vw;
-      padding: 20px 20px;
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      padding: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
     }
-  }
-</style>
+    .video-card {
+      background-color: #212121;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .thumbnail {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background-color: #333;
+    }
+    .thumbnail iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .video-info {
+      padding: 1rem;
+    }
+    .video-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin: 0;
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <h1>Zyntra Kids Library</h1>
-  <div class="filters">
-    <label for="categoryFilter">Filter by Category:</label>
-    <select id="categoryFilter">
-      <option value="all">All</option>
-      <option value="adventure">Adventure</option>
-      <option value="animal">Animal</option>
-      <option value="moral">Moral</option>
-      <option value="fantasy">Fantasy</option>
-    </select>
+  <header>ZyntraTube NeonVerse</header>
+
+  <div class="video-grid" id="video-grid">
+    <!-- Videos will be added here by JavaScript -->
   </div>
-</header>
 
-<section class="books" id="booksContainer">
-  <!-- Books appear here -->
-</section>
+  <script>
+    // --- YAHAN APNI VIDEOS ADD KAREIN ---
+    const videos = [
+      { title: "Spectacular Nature Views 🌳", youtubeVideoId: "CxwJ7aKOfi0" },
+      { title: "5-Minute Spicy Noodles Recipe 🍜", youtubeVideoId: "dQw4w9WgXcQ" },
+      { title: "K-Pop Dance Compilation 💃", youtubeVideoId: "9bZkp7q19f0" },
+      { title: "Learn to Code in 10 Minutes! 💻", youtubeVideoId: "aG-K8g2Uo-s" },
+      // ... aap yahan aur bhi videos add kar sakti hain! ...
+    ];
 
-<!-- Story Popup -->
-<div class="story-popup" id="storyPopup" role="dialog" aria-modal="true" aria-labelledby="storyTitle">
-  <div class="story-content">
-    <button class="close-btn" id="closeStoryBtn" aria-label="Close Story Popup">X</button>
-    <h2 id="storyTitle"></h2>
-    <div id="storyText"></div>
-  </div>
-</div>
-
-<script>
-  // Stories data
-  const books = [
-    {
-      id: 1,
-      category: "adventure",
-      title: "The Secret of Moon Hill",
-      cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Old_book_bindings_in_a_library_2018.jpg/320px-Old_book_bindings_in_a_library_2018.jpg",
-      story: `
-<p>On top of Moon Hill, Tara found a silver key buried under the ground. The key shone brightly under the afternoon sun.</p>
-<p>She turned the key in a hidden door and suddenly found herself in a magical city with glowing plants and talking animals.</p>
-<p>Tara met a wise owl who told her she must protect the city’s secret.</p>
-<p>She faced challenges and made friends like dancing fireflies and a shy dragon.</p>
-<p>With courage and kindness, Tara saved the city from dark clouds and promised to keep the secret safe.</p>
-<p>After her adventure, she returned home, keeping the silver key safe for when she might need it again.</p>
-`
-    },
-    {
-      id: 2,
-      category: "animal",
-      title: "Luna and the Lost Elephant",
-      cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Elephant_and_baby_%2851695771431%29.jpg/320px-Elephant_and_baby_%2851695771431%29.jpg",
-      story: `
-<p>Luna loved animals very much. One day, she found a lost baby elephant in the forest.</p>
-<p>The baby elephant was scared and alone. Luna promised to help it find its family.</p>
-<p>They traveled together through rivers and hills, facing many dangers.</p>
-<p>With kindness and bravery, Luna helped the elephant safely return to its herd.</p>
-<p>The villagers praised Luna and learned how important it is to care for all creatures.</p>
-`
-    },
-    {
-      id: 3,
-      category: "moral",
-      title: "The Honest Woodcutter",
-      cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Woodcutter_story_illustration.jpg/320px-Woodcutter_story_illustration.jpg",
-      story: `
-<p>A poor woodcutter lost his axe in the river. He was sad and worried because he needed it to earn money.</p>
-<p>A river fairy appeared and offered him a golden axe and a silver axe to replace his lost one.</p>
-<p>The woodcutter honestly said the golden and silver axes were not his and only wanted his own iron axe.</p>
-<p>Impressed by his honesty, the fairy gave him all three axes as a reward.</p>
-<p>The woodcutter’s honesty taught everyone the importance of truthfulness.</p>
-`
-    },
-    {
-      id: 4,
-      category: "fantasy",
-      title: "Magic Shoes",
-      cover: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Red_shoes.jpg/320px-Red_shoes.jpg",
-      story: `
-<p>A girl found a pair of magic shoes. When she wore them, she could fly high in the sky.</p>
-<p>She used her power to help animals and children in need.</p>
-<p>The magic shoes made her a kind and brave hero in her town.</p>
-<p>She learned that true magic comes from helping others.</p>
-`
-    }
-  ];
-
-  const booksContainer = document.getElementById("booksContainer");
-  const categoryFilter = document.getElementById("categoryFilter");
-  const storyPopup = document.getElementById("storyPopup");
-  const storyTitle = document.getElementById("storyTitle");
-  const storyText = document.getElementById("storyText");
-  const closeStoryBtn = document.getElementById("closeStoryBtn");
-
-  function displayBooks(filter) {
-    booksContainer.innerHTML = "";
-    let filteredBooks = filter === "all" ? books : books.filter(b => b.category === filter);
-
-    if (filteredBooks.length === 0) {
-      booksContainer.innerHTML = `<p style="font-size:1.2em; text-align:center; color:#a1887f;">No stories found in this category.</p>`;
-      return;
-    }
-
-    filteredBooks.forEach(book => {
-      const bookCard = document.createElement("div");
-      bookCard.className = "book-card";
-      bookCard.tabIndex = 0;
-      bookCard.setAttribute("role", "button");
-      bookCard.setAttribute("aria-pressed", "false");
-      bookCard.innerHTML = `
-        <img src="${book.cover}" alt="Cover of ${book.title}" class="book-cover" />
-        <div class="book-info">
-          <div class="book-title">${book.title}</div>
-          <div class="book-category">${book.category.charAt(0).toUpperCase() + book.category.slice(1)}</div>
-        </div>
-      `;
-      bookCard.addEventListener("click", () => openStory(book));
-      bookCard.addEventListener("keypress", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          openStory(book);
-        }
+    document.addEventListener("DOMContentLoaded", function() {
+      const videoGrid = document.getElementById("video-grid");
+      videos.forEach(video => {
+        const videoCard = document.createElement("div");
+        videoCard.className = "video-card";
+        
+        const embedUrl = `https://www.youtube.com/embed/${video.youtubeVideoId}`;
+        
+        videoCard.innerHTML = `
+          <div class="thumbnail">
+            <iframe src="${embedUrl}" allowfullscreen></iframe>
+          </div>
+          <div class="video-info">
+            <h3 class="video-title">${video.title}</h3>
+          </div>
+        `;
+        videoGrid.appendChild(videoCard);
       });
-      booksContainer.appendChild(bookCard);
     });
-  }
-
-  function openStory(book) {
-    storyTitle.textContent = book.title;
-    storyText.innerHTML = book.story;
-    storyPopup.style.display = "flex";
-    storyPopup.focus();
-  }
-
-  function closeStory() {
-    storyPopup.style.display = "none";
-    storyTitle.textContent = "";
-    storyText.innerHTML = "";
-  }
-
-  categoryFilter.addEventListener("change", () => {
-    displayBooks(categoryFilter.value);
-  });
-
-  closeStoryBtn.addEventListener("click", closeStory);
-  storyPopup.addEventListener("click", e => {
-    if (e.target === storyPopup) {
-      closeStory();
-    }
-  });
-
-  // Initial load
-  displayBooks("all");
-</script>
+  </script>
 
 </body>
 </html>
