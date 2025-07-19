@@ -36,6 +36,7 @@
             justify-content: center;
             gap: 1rem;
             border-bottom: 1px solid var(--glass-border);
+            flex-wrap: wrap;
         }
 
         nav button {
@@ -85,6 +86,30 @@
             margin: 0.5rem 0;
         }
 
+        .audio-card {
+            background-color: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .audio-card:hover {
+            transform: scale(1.05);
+        }
+
+        .audio-card audio {
+            width: 100%;
+        }
+
+        .audio-info {
+            padding: 1rem;
+        }
+
+        .audio-info h3 {
+            margin: 0.5rem 0;
+        }
+
         .upload-btn {
             position: fixed;
             bottom: 2rem;
@@ -98,6 +123,71 @@
             font-size: 2rem;
             cursor: pointer;
             box-shadow: 0 0 10px var(--neon-pink);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: var(--glass-bg);
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid var(--glass-border);
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: black;
+        }
+
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .modal-content label {
+            margin-top: 1rem;
+        }
+
+        .modal-content input, .modal-content select {
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid var(--glass-border);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .modal-content button {
+            padding: 0.5rem;
+            background-color: var(--neon-pink);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -113,41 +203,106 @@
         <button data-cat="food">Food 🍔</button>
         <button data-cat="tips">Tips 💡</button>
         <button data-cat="recipe">Recipe 🍳</button>
+        <button data-cat="audio">Audio 🎵</button>
     </nav>
     <div class="container" id="videoContainer">
         <!-- Video cards will be inserted here by JavaScript -->
     </div>
+    <div class="container" id="audioContainer" style="display: none;">
+        <!-- Audio cards will be inserted here by JavaScript -->
+    </div>
     <button class="upload-btn">+</button>
+
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Upload Video</h2>
+            <form id="uploadForm">
+                <label for="videoTitle">Title:</label>
+                <input type="text" id="videoTitle" name="videoTitle" required>
+
+                <label for="videoUrl">Video URL:</label>
+                <input type="url" id="videoUrl" name="videoUrl" required>
+
+                <label for="thumbnailUrl">Thumbnail URL:</label>
+                <input type="url" id="thumbnailUrl" name="thumbnailUrl" required>
+
+                <label for="videoCategory">Category:</label>
+                <select id="videoCategory" name="videoCategory" required>
+                    <option value="trending">Trending</option>
+                    <option value="kids">Kids</option>
+                    <option value="food">Food</option>
+                    <option value="tips">Tips</option>
+                    <option value="recipe">Recipe</option>
+                </select>
+
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+    </div>
 
     <script>
         const dailyVideos = [
             {
-                title: "Daily Video 1",
-                url: "https://cdn.pixabay.com/vimeo/753093004/elephant-100000.mp4?width=640&hash=5f7a1a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a",
+                title: "Big Buck Bunny",
+                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                 thumbnail: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
                 category: "trending"
             },
             {
-                title: "Daily Video 2",
-                url: "https://cdn.pixabay.com/vimeo/753093004/elephant-100000.mp4?width=640&hash=5f7a1a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a",
+                title: "Elephant's Dream",
+                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
                 thumbnail: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
                 category: "kids"
             },
             {
-                title: "Daily Video 3",
-                url: "https://cdn.pixabay.com/vimeo/753093004/elephant-100000.mp4?width=640&hash=5f7a1a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a",
+                title: "For Bigger Blazes",
+                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
                 thumbnail: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
                 category: "food"
             },
             {
-                title: "Daily Video 4",
-                url: "https://cdn.pixabay.com/vimeo/753093004/elephant-100000.mp4?width=640&hash=5f7a1a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a",
+                title: "For Bigger Escapes",
+                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
                 thumbnail: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
                 category: "tips"
             },
             {
-                title: "Daily Video 5",
-                url: "https://cdn.pixabay.com/vimeo/753093004/elephant-100000.mp4?width=640&hash=5f7a1a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a",
+                title: "For Bigger Fun",
+                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                thumbnail: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+                category: "recipe"
+            }
+        ];
+
+        const dailyAudios = [
+            {
+                title: "Indian Classical",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                thumbnail: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+                category: "trending"
+            },
+            {
+                title: "Japanese Traditional",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+                thumbnail: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+                category: "kids"
+            },
+            {
+                title: "African Drumming",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+                thumbnail: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+                category: "food"
+            },
+            {
+                title: "Brazilian Samba",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+                thumbnail: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
+                category: "tips"
+            },
+            {
+                title: "American Jazz",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
                 thumbnail: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
                 category: "recipe"
             }
@@ -172,15 +327,105 @@
             });
         }
 
+        function displayAudios(audios) {
+            const container = document.getElementById('audioContainer');
+            container.innerHTML = '';
+            audios.forEach(audio => {
+                const card = document.createElement('div');
+                card.className = 'audio-card';
+                card.innerHTML = `
+                    <img src="${audio.thumbnail}" alt="${audio.title}" style="width:100%;">
+                    <div class="audio-info">
+                        <h3>${audio.title}</h3>
+                        <audio controls>
+                            <source src="${audio.url}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
         function filterVideos(category) {
             if (category === 'all') {
                 displayVideos(dailyVideos);
+                document.getElementById('videoContainer').style.display = 'grid';
+                document.getElementById('audioContainer').style.display = 'none';
+            } else if (category === 'audio') {
+                showAudios();
             } else {
                 const filteredVideos = dailyVideos.filter(video => video.category === category);
                 displayVideos(filteredVideos);
+                document.getElementById('videoContainer').style.display = 'grid';
+                document.getElementById('audioContainer').style.display = 'none';
             }
         }
 
+        function showAudios() {
+            document.getElementById('videoContainer').style.display = 'none';
+            document.getElementById('audioContainer').style.display = 'grid';
+            displayAudios(dailyAudios);
+        }
+
+        // Get the modal
+        const modal = document.getElementById('uploadModal');
+
+        // Get the button that opens the modal
+        const uploadBtn = document.querySelector('.upload-btn');
+
+        // Get the <span> element that closes the modal
+        const closeBtn = document.querySelector('.close');
+
+        // When the user clicks the button, open the modal
+        uploadBtn.onclick = function() {
+            modal.style.display = 'block';
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const title = document.getElementById('videoTitle').value;
+            const url = document.getElementById('videoUrl').value;
+            const thumbnail = document.getElementById('thumbnailUrl').value;
+            const category = document.getElementById('videoCategory').value;
+
+            // Add the new video to the dailyVideos array
+            dailyVideos.push({
+                title: title,
+                url: url,
+                thumbnail: thumbnail,
+                category: category
+            });
+
+            // Close the modal
+            modal.style.display = 'none';
+
+            // Reset the form
+            document.getElementById('uploadForm').reset();
+
+            // Update the display to show all videos (including the new one)
+            filterVideos('all');
+
+            // Update the active button to 'All'
+            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('nav button[data-cat="all"]').classList.add('active');
+        });
+
+        // Add event listeners for category buttons
         document.querySelectorAll('nav button').forEach(button => {
             button.addEventListener('click', () => {
                 document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
@@ -197,6 +442,8 @@
         console.log(`Video of the Day: ${videoOfTheDay.title}`);
 
         // Display all videos by default
+        document.getElementById('videoContainer').style.display = 'grid';
+        document.getElementById('audioContainer').style.display = 'none';
         displayVideos(dailyVideos);
     </script>
 </body>
